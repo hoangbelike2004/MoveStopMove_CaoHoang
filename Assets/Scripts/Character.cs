@@ -1,16 +1,29 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
 public class Character : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] protected float speed,valueSize;
+    [SerializeField] protected float speed,valueSize,rangeAttack = 5f;
     protected bool isDie;
     protected const string IDLE = "Idle", ATTACK = "Attack",DIE = "Die",RUN = "Run", DANCE_WIN = "DanceWin";
     private string currentAnim;
     [SerializeField] private Animator anim;
+    //[SerializeField] private SphereCollider sphereCollider;
+    protected Vector3 CurrentPos;
+    [SerializeField] private LayerMask botLayer;
+    public Collider[] hitcollider;
+    public List<GameObject> listgameObjectHitcollider;
+    [SerializeField] protected GameObject _weaponFake;
+    [SerializeField] protected GameObject weaponPrefab;
+    [SerializeField] protected Transform firePos;
+    protected bool isAttack;
+    public float time,timer;
+
 
     void Start()
     {
@@ -24,7 +37,9 @@ public class Character : MonoBehaviour
     {
         isDie = false;
         speed = 10f;
-        valueSize = 0.15f;
+        valueSize = 0.1f;
+        time = 0;
+        isAttack = false;
     }
 
     protected virtual void OnDespawn()
@@ -40,6 +55,7 @@ public class Character : MonoBehaviour
         //{
             //anim.ResetTrigger(nameAnim);
             //currentAnim = nameAnim;
+            //Debug.Log(nameAnim);
             anim.SetTrigger(nameAnim);
        // }
     }
@@ -61,7 +77,7 @@ public class Character : MonoBehaviour
 
     protected virtual void AttackRang()
     {
-
+        
     }
 
     protected virtual void UpSize()
@@ -73,8 +89,31 @@ public class Character : MonoBehaviour
     }
     protected virtual void Attack()
     {
+        
+          
         ChangeAnim(ATTACK);
+        time = 0;
+        //Debug.Log(2);
+        
+        
+      
+
     }
+    public void DeActiveAttack()
+    {
+        isAttack = false;
+        //time = timer;
+        
+    }
+    public void AttackActive()
+    {
+        
+        
+        GameObject bullet = Instantiate(weaponPrefab, firePos.position, firePos.rotation);
+        
+
+    }
+   
     protected virtual void Die()
     {
         ChangeAnim(DIE);
@@ -83,4 +122,55 @@ public class Character : MonoBehaviour
     {
         ChangeAnim(DANCE_WIN);
     }
+    protected virtual void CheckSight()
+    {
+
+        //Collider other;
+        //other = hitcollider[0];
+        //int index = Array.IndexOf(hitcollider, other);
+        hitcollider = Physics.OverlapSphere(transform.position, rangeAttack, botLayer);
+        if (hitcollider.Length > 0)
+        {
+            
+            //enemyCurrentPos = hitcollider[0].transform.position;
+            
+            if (!listgameObjectHitcollider.Contains(hitcollider[0].gameObject))
+            {
+                listgameObjectHitcollider.Add(hitcollider[0].gameObject);
+            }
+            
+        }
+        if (listgameObjectHitcollider.Count != 0)
+        {
+            
+            if (hitcollider.Length != 0)
+            {
+                CurrentPos = listgameObjectHitcollider[0].transform.position;
+                listgameObjectHitcollider[0].GetComponent<Bot>()._selectAttackOfPlayer.SetActive(true);
+            }
+            //Debug.Log(listgameObjectHitcollider[0].gameObject.name);
+            if (Vector3.Distance(transform.position, listgameObjectHitcollider[0].transform.position) > rangeAttack)
+            {
+                //Debug.Log(Vector3.Distance(transform.position, listgameObjectHitcollider[0].transform.position));
+                listgameObjectHitcollider[0].GetComponent<Bot>()._selectAttackOfPlayer.SetActive(false);
+                listgameObjectHitcollider.RemoveAt(0);
+               
+            }
+            else if(listgameObjectHitcollider[0].activeSelf == false)
+            {
+                listgameObjectHitcollider.RemoveAt(0);
+                
+                CurrentPos = Vector3.zero;
+                isAttack = false;
+            }
+        }
+        if (listgameObjectHitcollider.Count == 0)
+        {
+            CurrentPos = Vector3.zero;
+            isAttack = false;
+        }
+
+
+        }
+   
 }

@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Player : Character
@@ -14,6 +15,18 @@ public class Player : Character
         {
             UpSize();
         }
+
+
+        
+            CheckSight();
+        if (time >= timer)
+        {
+            isAttack = true;
+            
+        }
+        time += Time.deltaTime;
+
+        //Debug.Log(enemyCurrentPos);
     }
     private void MovePlayer()
     {
@@ -24,15 +37,43 @@ public class Player : Character
     }
     private void ChangeState()
     {
-        if(_variableJoyStick.Horizontal !=0 || _variableJoyStick.Vertical != 0)
+        if (_variableJoyStick.Horizontal != 0 || _variableJoyStick.Vertical != 0)
         {
             MovePlayer();
             ChangeAnim(RUN);
+            time = timer;
             Debug.Log(1);
-        }else if(_variableJoyStick.Horizontal == 0 && _variableJoyStick.Vertical == 0)
-        {
-            Debug.Log(2);
-            ChangeAnim(IDLE);
+            _weaponFake.SetActive(true);
+
         }
+        else if (_variableJoyStick.Horizontal == 0 && _variableJoyStick.Vertical == 0)
+        {
+            if (!isAttack ||CurrentPos == Vector3.zero)
+            {
+                ChangeAnim(IDLE);
+                Debug.Log(1);
+                _weaponFake.SetActive(true);
+            }
+
+            if (CurrentPos != Vector3.zero && isAttack)
+            {
+                
+
+
+                if (listgameObjectHitcollider.Count != 0)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(listgameObjectHitcollider[0].transform.position - transform.position);
+                    targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);//cho xoay moi truc y ve phia enemy
+                                                                                          // Xoay player về phía quái
+                    transform.rotation = targetRotation;
+
+                }
+
+                Attack();
+            }
+        }
+
     }
+
 }
+
