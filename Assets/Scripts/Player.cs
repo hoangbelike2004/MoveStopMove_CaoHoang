@@ -51,7 +51,6 @@ public class Player : Character
             if (!isAttack ||CurrentPos == Vector3.zero)
             {
                 ChangeAnim(IDLE);
-                Debug.Log(1);
                 _weaponFake.SetActive(true);
             }
 

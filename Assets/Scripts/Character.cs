@@ -109,7 +109,7 @@ public class Character : MonoBehaviour
     {
         
         
-        GameObject bullet = Instantiate(weaponPrefab, firePos.position, firePos.rotation);
+        GameObject bullet = ObjectPooling.Instance.SpawnGameObjectFromPool(PoolType.Weapon,firePos.position,firePos.rotation);
         
 
     }

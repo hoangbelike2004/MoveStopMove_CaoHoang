@@ -10,7 +10,7 @@ public class Weapon : WeaponCharacter
     IEnumerator Start()
     {
         rb.AddForce(speed* transform.forward, ForceMode.Impulse);
-        transform.Rotate(-90, 0, 0);
+        transform.rotation = Quaternion.Euler(-90, 0, 0);
         //transform.rotation = Quaternion.Euler(-90, 0, 0);
         while (true) {
             
@@ -23,6 +23,8 @@ public class Weapon : WeaponCharacter
     {
         if (other.CompareTag("Bot"))
         {
+         
+            ObjectPooling.Instance.ReturnPoolObject(PoolType.Weapon, gameObject);
             other.gameObject.SetActive(false);
         }
     }
