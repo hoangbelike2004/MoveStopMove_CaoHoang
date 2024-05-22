@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class WeaponCharacter : MonoBehaviour
 {
-    [SerializeField] protected float speed=3f;
+    [SerializeField] protected float speed,timeDeactiveWeapon;
+    protected Character characterParent;
+    public void SetCharracterParent(Character newCharacter)
+    {
+        characterParent = newCharacter;
+    }
 }

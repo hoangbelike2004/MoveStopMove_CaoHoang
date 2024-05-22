@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class Character : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] protected float speed,valueSize,rangeAttack = 5f;
+    [SerializeField] protected float speed,valueSize,valuesizetmp,rangeAttack = 7f;
     protected bool isDie;
     protected const string IDLE = "Idle", ATTACK = "Attack",DIE = "Die",RUN = "Run", DANCE_WIN = "DanceWin";
     private string currentAnim;
@@ -51,13 +51,7 @@ public class Character : MonoBehaviour
 
     protected virtual void ChangeAnim(string nameAnim)
     {
-        //if(currentAnim != nameAnim)
-        //{
-            //anim.ResetTrigger(nameAnim);
-            //currentAnim = nameAnim;
-            //Debug.Log(nameAnim);
             anim.SetTrigger(nameAnim);
-       // }
     }
 
     protected virtual void ChangeWeapon()
@@ -83,33 +77,35 @@ public class Character : MonoBehaviour
     protected virtual void UpSize()
     {
         transform.localScale = new Vector3(transform.localScale.x+valueSize,transform.localScale.y+valueSize,transform.localScale.z+valueSize);
-        //_rangeAttackIMG.transform.localScale = new Vector3(_rangeAttackIMG.transform.localScale.x + valueSize, _rangeAttackIMG.transform.localScale.y + valueSize,
-        //    0f);
-        //_sphererange.transform.localScale = new Vector3(_sphererange.transform.localScale.x + .5f, _sphererange.transform.localScale.y, _sphererange.transform.localScale.x + .5f);
+        rangeAttack += valueSize*5f;
+        valuesizetmp += valueSize;
+        
     }
+    public float GetRangeAttack()
+    {
+        return rangeAttack;
+    }
+    public float GetValueSize()
+    {
+        return valuesizetmp;
+    }
+
     protected virtual void Attack()
     {
-        
-          
         ChangeAnim(ATTACK);
-        time = 0;
-        //Debug.Log(2);
-        
-        
-      
 
     }
     public void DeActiveAttack()
     {
         isAttack = false;
-        //time = timer;
         
     }
     public void AttackActive()
     {
         
         
-        GameObject bullet = ObjectPooling.Instance.SpawnGameObjectFromPool(PoolType.Weapon,firePos.position,firePos.rotation);
+        GameObject bullet = Instantiate(weaponPrefab, firePos.position, firePos.rotation);
+        bullet.GetComponent<Weapon>().SetCharracterParent(this);
         
 
     }
@@ -124,15 +120,9 @@ public class Character : MonoBehaviour
     }
     protected virtual void CheckSight()
     {
-
-        //Collider other;
-        //other = hitcollider[0];
-        //int index = Array.IndexOf(hitcollider, other);
         hitcollider = Physics.OverlapSphere(transform.position, rangeAttack, botLayer);
         if (hitcollider.Length > 0)
         {
-            
-            //enemyCurrentPos = hitcollider[0].transform.position;
             
             if (!listgameObjectHitcollider.Contains(hitcollider[0].gameObject))
             {
@@ -148,10 +138,8 @@ public class Character : MonoBehaviour
                 CurrentPos = listgameObjectHitcollider[0].transform.position;
                 listgameObjectHitcollider[0].GetComponent<Bot>()._selectAttackOfPlayer.SetActive(true);
             }
-            //Debug.Log(listgameObjectHitcollider[0].gameObject.name);
             if (Vector3.Distance(transform.position, listgameObjectHitcollider[0].transform.position) > rangeAttack)
             {
-                //Debug.Log(Vector3.Distance(transform.position, listgameObjectHitcollider[0].transform.position));
                 listgameObjectHitcollider[0].GetComponent<Bot>()._selectAttackOfPlayer.SetActive(false);
                 listgameObjectHitcollider.RemoveAt(0);
                
@@ -172,5 +160,6 @@ public class Character : MonoBehaviour
 
 
         }
-   
+
+
 }

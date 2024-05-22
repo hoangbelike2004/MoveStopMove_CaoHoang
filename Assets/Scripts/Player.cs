@@ -42,7 +42,7 @@ public class Player : Character
             MovePlayer();
             ChangeAnim(RUN);
             time = timer;
-            Debug.Log(1);
+            //Debug.Log(1);
             _weaponFake.SetActive(true);
 
         }
@@ -73,6 +73,5 @@ public class Player : Character
         }
 
     }
-
 }
 
