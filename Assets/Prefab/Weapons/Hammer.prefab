@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1894258693186380423}
   - component: {fileID: 8408329255615775647}
   - component: {fileID: 1144779640000157265}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hammer
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  timeDeactiveWeapon: 0
   rb: {fileID: 1144779640000157265}
   target: {x: 0, y: 0, z: 0}
 --- !u!54 &1144779640000157265

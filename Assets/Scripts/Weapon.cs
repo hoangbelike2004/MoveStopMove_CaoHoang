@@ -15,7 +15,6 @@ public class Weapon : WeaponCharacter
         float valuesize = characterParent.GetComponent<Character>().GetValueSize()*transform.localScale.x; //tang size cua vu khi
         timeDeactiveWeapon = characterParent.GetComponent<Character>().GetRangeAttack()/speed;//thay doi time khi quang duong thay doi
         transform.localScale = new Vector3(transform.localScale.x+valuesize, transform.localScale.y+valuesize, transform.localScale.z+valuesize);
-        Debug.Log(timeDeactiveWeapon);
         rb.AddForce(speed* transform.forward, ForceMode.Impulse);
         transform.Rotate(-90, 0, 0);
         Invoke(nameof(ActiveWeapon), timeDeactiveWeapon);
@@ -30,9 +29,14 @@ public class Weapon : WeaponCharacter
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.name);
-       if(other.GetComponent<Character>() != characterParent)
+       if(other.GetComponent<Character>() != characterParent&&other.GetComponent<Character>()!= null)
         {
-            other.gameObject.SetActive(false);
+            Character target = Cache.GetCharacterInCache(other);
+            
+            
+                target.Die();
+            
+            
         }
     }
     void ActiveWeapon()

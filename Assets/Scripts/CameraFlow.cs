@@ -15,10 +15,11 @@ public class CameraFlow : MonoBehaviour
             valuesize = _playerTf.GetComponent<Character>().GetValueSize() * 10;
             if(valuesizetmp <= valuesize)
             {
+                
                 valuesizetmp += Time.deltaTime;
-                StartCoroutine(FlowPlayer());
+                
             }
-            
+            StartCoroutine(FlowPlayer());
             yield return null;
         }
        

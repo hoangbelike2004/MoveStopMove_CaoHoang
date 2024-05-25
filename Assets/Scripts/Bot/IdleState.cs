@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
+using UnityEngine;
+
+public class IdleState : IState
+{
+    float time,timer;
+    public void OnEnter(Bot bot)
+    {
+        time = 0;
+        timer = Random.Range(2, 4);
+    }
+
+    public void OnExcute(Bot bot)
+    {
+        time += Time.deltaTime;
+        if(time >= timer)
+        {
+            bot.ChangeState(new PartrolState());
+        }
+        if(bot.listgameObjectHitcollider.Count > 0)
+        {
+            bot.ChangeState(new AttackState());
+        }
+    }
+
+    public void OnExit(Bot bot)
+    {
+        
+    }
+}

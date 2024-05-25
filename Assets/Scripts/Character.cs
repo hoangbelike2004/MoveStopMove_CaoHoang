@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
@@ -10,18 +11,19 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] protected float speed,valueSize,valuesizetmp,rangeAttack = 7f;
     protected bool isDie;
-    protected const string IDLE = "Idle", ATTACK = "Attack",DIE = "Die",RUN = "Run", DANCE_WIN = "DanceWin";
+    public const string IDLE = "Idle", ATTACK = "Attack",DIE = "Dead",RUN = "Run", DANCE_WIN = "DanceWin";
     private string currentAnim;
     [SerializeField] private Animator anim;
     //[SerializeField] private SphereCollider sphereCollider;
     protected Vector3 CurrentPos;
-    [SerializeField] private LayerMask botLayer;
+    [SerializeField] private int planeLayer,layerWeapon;
     public Collider[] hitcollider;
     public List<GameObject> listgameObjectHitcollider;
     [SerializeField] protected GameObject _weaponFake;
     [SerializeField] protected GameObject weaponPrefab;
     [SerializeField] protected Transform firePos;
-    protected bool isAttack;
+    [SerializeField] protected CapsuleCollider capsuleCollider;
+    public bool isAttack;
     public float time,timer;
 
 
@@ -40,16 +42,17 @@ public class Character : MonoBehaviour
         valueSize = 0.1f;
         time = 0;
         isAttack = false;
+        capsuleCollider.enabled = true;
     }
 
-    protected virtual void OnDespawn()
+    public virtual void OnDespawn(GameObject newobject)
     {
-
+       
     }
 
 
 
-    protected virtual void ChangeAnim(string nameAnim)
+    public virtual void ChangeAnim(string nameAnim)
     {
             anim.SetTrigger(nameAnim);
     }
@@ -90,7 +93,7 @@ public class Character : MonoBehaviour
         return valuesizetmp;
     }
 
-    protected virtual void Attack()
+    public virtual void Attack()
     {
         ChangeAnim(ATTACK);
 
@@ -100,7 +103,7 @@ public class Character : MonoBehaviour
         isAttack = false;
         
     }
-    public void AttackActive()
+    public void InstanWeapon()
     {
         
         
@@ -110,9 +113,13 @@ public class Character : MonoBehaviour
 
     }
    
-    protected virtual void Die()
+    public virtual void Die()
     {
+        isDie = true;
+        capsuleCollider.enabled = false;
+        speed = 0;
         ChangeAnim(DIE);
+        
     }
     protected virtual void Win()
     {
@@ -120,40 +127,57 @@ public class Character : MonoBehaviour
     }
     protected virtual void CheckSight()
     {
-        hitcollider = Physics.OverlapSphere(transform.position, rangeAttack, botLayer);
+        
+            hitcollider = Physics.OverlapSphere(transform.position, rangeAttack);
+        
+        
+        
         if (hitcollider.Length > 0)
         {
-            
-            if (!listgameObjectHitcollider.Contains(hitcollider[0].gameObject))
+           for(int i = 0;i< hitcollider.Length;i++)
             {
-                listgameObjectHitcollider.Add(hitcollider[0].gameObject);
+                if (!listgameObjectHitcollider.Contains(hitcollider[i].gameObject) && hitcollider[i].gameObject.layer != planeLayer
+                && hitcollider[i].gameObject != this.gameObject && hitcollider[i].gameObject.layer != layerWeapon)
+                {
+                    listgameObjectHitcollider.Add(hitcollider[i].gameObject);
+                }
+
             }
-            
+
         }
         if (listgameObjectHitcollider.Count != 0)
         {
-            
-            if (hitcollider.Length != 0)
+            if (listgameObjectHitcollider[0].activeSelf == false)
             {
-                CurrentPos = listgameObjectHitcollider[0].transform.position;
-                listgameObjectHitcollider[0].GetComponent<Bot>()._selectAttackOfPlayer.SetActive(true);
-            }
-            if (Vector3.Distance(transform.position, listgameObjectHitcollider[0].transform.position) > rangeAttack)
-            {
-                listgameObjectHitcollider[0].GetComponent<Bot>()._selectAttackOfPlayer.SetActive(false);
+                Debug.LogError("chay vao xoa");
                 listgameObjectHitcollider.RemoveAt(0);
-               
-            }
-            else if(listgameObjectHitcollider[0].activeSelf == false)
-            {
-                listgameObjectHitcollider.RemoveAt(0);
-                
+
                 CurrentPos = Vector3.zero;
                 isAttack = false;
             }
+            if (listgameObjectHitcollider.Count != 0)
+            {
+                CurrentPos = listgameObjectHitcollider[0].transform.position;
+                if(this.gameObject.tag == "Player")
+                {
+                    listgameObjectHitcollider[0].GetComponent<Bot>()._selectAttackOfPlayer.SetActive(true);
+                }
+                
+            }
+            if (Vector3.Distance(transform.position, listgameObjectHitcollider[0].transform.position) > rangeAttack)
+            {
+                if (this.gameObject.tag == "Player")
+                {
+                    listgameObjectHitcollider[0].GetComponent<Bot>()._selectAttackOfPlayer.SetActive(false);
+                }
+                listgameObjectHitcollider.RemoveAt(0);
+               
+            }
+            
         }
         if (listgameObjectHitcollider.Count == 0)
         {
+
             CurrentPos = Vector3.zero;
             isAttack = false;
         }
