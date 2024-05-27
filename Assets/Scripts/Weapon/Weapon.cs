@@ -33,9 +33,22 @@ public class Weapon : WeaponCharacter
        if(other.GetComponent<Character>() != characterParent&&other.GetComponent<Character>()!= null)
         {
             Character target = Cache.GetCharacteOfColliderInCache(other);
-
+            Character current = Cache.GetCharacterInCache(characterParent);
             Destroy(gameObject);
-                target.Die();
+            if(target.GetScore() > current.GetScore())
+            {
+
+                current.SetScore(current.GetScore() + 3);
+            }
+            else if(target.GetScore() == current.GetScore())
+            {
+                current.SetScore(current.GetScore() + 2);
+            }
+            else
+            {
+                current.SetScore(current.GetScore() + 1);
+            }
+            //target.Die();
             
             
         }

@@ -49,8 +49,11 @@ public class Bot : Character
     {
         _agent.speed = speed;
         base.OnInit();
+        score = Random.Range(0, 15);
         isDie = false;
         ChangeState(new IdleState());
+        _text.text = score.ToString();
+        CheckScoreForUpSize(score);
         ChangeWeapon(weaponData1.GetWeapon(WeaponType.lollipop));
     }
     public void ChangeAnimBot()

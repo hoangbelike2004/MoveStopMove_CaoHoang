@@ -32,7 +32,7 @@ public class AttackState : IState
                                                                                       // Xoay player về phía quái
                 bot.transform.rotation = targetRotation;
                 bot.Attack();
-                time = 0;
+                //time = 0;
             }
             if (bot.GetCurrentPos() == Vector3.zero)
             {

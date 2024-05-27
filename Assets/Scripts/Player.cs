@@ -10,21 +10,25 @@ public class Player : Character
     private Vector3 moveDirection;
     void Update()
     {
-        ChangeState();
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (!isDie)
         {
-            UpSize();
-        }
+            ChangeState();
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                UpSize();
+            }
 
 
-        
+
             CheckSight();
-        if (time >= timer)
-        {
-            isAttack = true;
-            
+            if (time >= timer)
+            {
+                isAttack = true;
+
+            }
+            time += Time.deltaTime;
         }
-        time += Time.deltaTime;
+        
 
         //Debug.Log(enemyCurrentPos);
     }
@@ -52,12 +56,12 @@ public class Player : Character
             {
                 ChangeAnim(IDLE);
                 _weaponFake.SetActive(true);
+                time += Time.deltaTime;
             }
 
-            if (CurrentPos != Vector3.zero && isAttack)
+            if (CurrentPos != Vector3.zero && isAttack&& time >= timer)
             {
 
-                Debug.Log(1);
 
                 if (hitcollider.Length != 0)
                 {
@@ -77,6 +81,8 @@ public class Player : Character
     {
         base.OnInit();
         ChangeWeapon(weaponData1.GetWeapon(WeaponType.hammer));
+        score = 0;
+        _text.text = score.ToString();
     }
 }
 

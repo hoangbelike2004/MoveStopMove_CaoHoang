@@ -11,7 +11,8 @@ public class Character : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] protected float speed,valueSize,valuesizetmp,rangeAttack = 7f;
-    protected bool isDie,isSelectEnemy;
+    [SerializeField] protected int score;
+    protected bool isDie,isSelectEnemy,isAugment;
     public const string IDLE = "Idle", ATTACK = "Attack",DIE = "Dead",RUN = "Run", DANCE_WIN = "DanceWin";
     private string currentAnim;
     [SerializeField] private Animator anim;
@@ -25,9 +26,13 @@ public class Character : MonoBehaviour
     [SerializeField] protected Transform firePos;
     [SerializeField] protected CapsuleCollider capsuleCollider;
     [SerializeField] protected WeaponData1 weaponData1;
+    [SerializeField] protected TextMeshProUGUI _text;
     public bool isAttack;
+    private bool[] isUpSize = new bool[5];
     public float time,timer;
 
+    public delegate void UpSizeDelegate();
+    public static UpSizeDelegate UpSizeEvent;
 
     void Start()
     {
@@ -45,6 +50,11 @@ public class Character : MonoBehaviour
         time = 0;
         isAttack = false;
         capsuleCollider.enabled = true;
+        for(int i = 0; i < isUpSize.Length; i++)
+        {
+            isUpSize[i] = true;
+        }
+        
         
     }
 
@@ -85,7 +95,50 @@ public class Character : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x+valueSize,transform.localScale.y+valueSize,transform.localScale.z+valueSize);
         rangeAttack += valueSize*5f;
         valuesizetmp += valueSize;
+        UpSizeEvent?.Invoke();
         
+    }
+    public void SetScore(int score)
+    {
+        this.score = score;
+        _text.text = this.score.ToString();
+        CheckScoreForUpSize(this.score);
+    }
+    protected void CheckScoreForUpSize(int score)
+    {
+        if(score < 2)
+        {
+            return;
+        }
+        else if(score >= 2 && isUpSize[0])
+        {
+            isUpSize[0] = false;
+            UpSize();
+        }
+        else if(score >= 6 && isUpSize[1])
+        {
+            isUpSize[1] = false;
+            UpSize();
+        }
+        else if (score >= 14 && isUpSize[2])
+        {
+            isUpSize[2] = false;
+            UpSize();
+        }
+        else if (score >= 30 && isUpSize[3])
+        {
+            isUpSize[3] = false;
+            UpSize();
+        }
+        else if (score >= 64 && isUpSize[4])
+        {
+            isUpSize[4] = false;
+            UpSize();
+        }
+    }
+    public int GetScore()
+    {
+        return score;
     }
     public float GetRangeAttack()
     {
@@ -94,6 +147,10 @@ public class Character : MonoBehaviour
     public float GetValueSize()
     {
         return valuesizetmp;
+    }
+    public bool GetIsDie()
+    {
+        return isDie;
     }
 
     public virtual void Attack()
@@ -107,7 +164,7 @@ public class Character : MonoBehaviour
     public void DeActiveAttack()
     {
         isAttack = false;
-        
+        time = 0;
     }
     public void InstanWeapon()
     {
