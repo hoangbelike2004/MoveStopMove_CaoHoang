@@ -19,7 +19,7 @@ public class IdleState : IState
         {
             bot.ChangeState(new PartrolState());
         }
-        if(bot.listgameObjectHitcollider.Count > 0)
+        if(bot.GetCurrentPos() != Vector3.zero)
         {
             bot.ChangeState(new AttackState());
         }

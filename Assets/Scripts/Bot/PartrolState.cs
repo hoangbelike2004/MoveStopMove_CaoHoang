@@ -33,9 +33,10 @@ public class PartrolState : IState
    
         }
 
-        if(bot.listgameObjectHitcollider.Count > 0)
+        if(bot.GetCurrentPos() != Vector3.zero)
         {
             bot.SetTarget();
+            bot.isAttack = true;
             bot.ChangeState(new AttackState());
         }
     }

@@ -12,8 +12,9 @@ public class Weapon : WeaponCharacter
     Collider[] col;
     IEnumerator Start()
     {
-        float valuesize = characterParent.GetComponent<Character>().GetValueSize()*transform.localScale.x; //tang size cua vu khi
-        timeDeactiveWeapon = characterParent.GetComponent<Character>().GetRangeAttack()/speed;//thay doi time khi quang duong thay doi
+        Character newCharacter = Cache.GetCharacterInCache(characterParent);
+        float valuesize = newCharacter.GetValueSize()*transform.localScale.x; //tang size cua vu khi
+        timeDeactiveWeapon = newCharacter.GetRangeAttack()/speed;//thay doi time khi quang duong thay doi
         transform.localScale = new Vector3(transform.localScale.x+valuesize, transform.localScale.y+valuesize, transform.localScale.z+valuesize);
         rb.AddForce(speed* transform.forward, ForceMode.Impulse);
         transform.Rotate(-90, 0, 0);
@@ -31,9 +32,9 @@ public class Weapon : WeaponCharacter
         //Debug.Log(other.name);
        if(other.GetComponent<Character>() != characterParent&&other.GetComponent<Character>()!= null)
         {
-            Character target = Cache.GetCharacterInCache(other);
-            
-            
+            Character target = Cache.GetCharacteOfColliderInCache(other);
+
+            Destroy(gameObject);
                 target.Die();
             
             

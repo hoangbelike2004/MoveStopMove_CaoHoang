@@ -469,6 +469,7 @@ MonoBehaviour:
   _weaponFake: {fileID: 2652897886003830623}
   weaponPrefab: {fileID: 982164071880922234, guid: 00bf39e0f1cc50746922ca68c643351d, type: 3}
   firePos: {fileID: 8322062995560527015}
+  capsuleCollider: {fileID: 6375335837058421781}
   isAttack: 0
   time: 2.5
   timer: 2.5

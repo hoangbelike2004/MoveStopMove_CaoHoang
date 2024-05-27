@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Bot : Character
 {
-    public GameObject _selectAttackOfPlayer;
+    [SerializeField] GameObject _selectAttackOfPlayer;
     public float radius = 20;
     [SerializeField] NavMeshAgent _agent;
     private IState currentState;
@@ -51,6 +51,7 @@ public class Bot : Character
         base.OnInit();
         isDie = false;
         ChangeState(new IdleState());
+        ChangeWeapon(weaponData1.GetWeapon(WeaponType.lollipop));
     }
     public void ChangeAnimBot()
     {
@@ -59,7 +60,7 @@ public class Bot : Character
         if(isMoving)
         {
             ChangeAnim(RUN);
-        }else if (!isMoving)
+        }else if (!isMoving&&!isAttack)
         {
             ChangeAnim(IDLE);
         }
@@ -68,6 +69,24 @@ public class Bot : Character
         {
             _weaponFake.SetActive(true);
         }
+        if (isSelectEnemy)
+        {
+            _selectAttackOfPlayer.SetActive(true);
+            
+        }
+        else
+        {
+
+            _selectAttackOfPlayer.SetActive(false); 
+        }
+    }
+    public void IsSelect(bool isselect)
+    {
+        this.isSelectEnemy = isselect;
+    }
+    public Vector3 GetCurrentPos()
+    {
+        return CurrentPos;
     }
     protected override void CheckSight()
     {

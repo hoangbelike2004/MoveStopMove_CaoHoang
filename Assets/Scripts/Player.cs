@@ -56,12 +56,12 @@ public class Player : Character
 
             if (CurrentPos != Vector3.zero && isAttack)
             {
-                
 
+                Debug.Log(1);
 
-                if (listgameObjectHitcollider.Count != 0)
+                if (hitcollider.Length != 0)
                 {
-                    Quaternion targetRotation = Quaternion.LookRotation(listgameObjectHitcollider[0].transform.position - transform.position);
+                    Quaternion targetRotation = Quaternion.LookRotation(CurrentPos - transform.position);
                     targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);//cho xoay moi truc y ve phia enemy
                                                                                           // Xoay player về phía quái
                     transform.rotation = targetRotation;
@@ -72,6 +72,11 @@ public class Player : Character
             }
         }
 
+    }
+    protected override void OnInit()
+    {
+        base.OnInit();
+        ChangeWeapon(weaponData1.GetWeapon(WeaponType.hammer));
     }
 }
 

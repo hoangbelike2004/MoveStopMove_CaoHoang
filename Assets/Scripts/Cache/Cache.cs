@@ -1,18 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class Cache
 {
-   private static Dictionary<Collider,Character> cacheCharacter = new Dictionary<Collider,Character>();
+   private static Dictionary<Collider,Character> cacheCollider = new Dictionary<Collider,Character>();
     private static Dictionary<GameObject, Bot> cacheBot = new Dictionary<GameObject, Bot>();
-    public static Character GetCharacterInCache(Collider collider)
+    private static Dictionary<Character, Character> cacheCharacter = new Dictionary<Character, Character>();
+    private static Dictionary<Weapon, Weapon> cacheWeapon = new Dictionary<Weapon, Weapon>();
+    public static Character GetCharacteOfColliderInCache(Collider collider)
     {
-        if (!cacheCharacter.ContainsKey(collider))
+        if (!cacheCollider.ContainsKey(collider))
         {
-            cacheCharacter.Add(collider, collider.GetComponent<Character>());
+            cacheCollider.Add(collider, collider.GetComponent<Character>());
         }
-        return cacheCharacter[collider];
+        return cacheCollider[collider];
+    }
+    public static Character GetCharacterInCache(Character Cha)
+    {
+        if (!cacheCharacter.ContainsKey(Cha))
+        {
+            cacheCharacter.Add(Cha, Cha.GetComponent<Character>());
+        }
+        return cacheCharacter[Cha];
     }
     public static Bot GetBotInCache(GameObject gameObject)
     {
@@ -21,5 +32,14 @@ public static class Cache
             cacheBot.Add(gameObject, gameObject.GetComponent<Bot>());
         }
         return cacheBot[gameObject];
+    }
+
+    public static Weapon GetWeaponInCache(Weapon gameObject)
+    {
+        if (!cacheWeapon.ContainsKey(gameObject))
+        {
+            cacheWeapon.Add(gameObject, gameObject.GetComponent<Weapon>());
+        }
+        return cacheWeapon[gameObject];
     }
 }
