@@ -8,8 +8,6 @@ public class Weapon : WeaponCharacter
     //[SerializeField] private Character character;
     [SerializeField] Rigidbody rb;
     public Vector3 target;
-    BoxCollider box;
-    Collider[] col;
     IEnumerator Start()
     {
         Character newCharacter = Cache.GetCharacterInCache(characterParent);
@@ -30,10 +28,11 @@ public class Weapon : WeaponCharacter
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.name);
-       if(other.GetComponent<Character>() != characterParent&&other.GetComponent<Character>()!= null)
+       if(characterParent != other.GetComponent<Character>())
         {
             Character target = Cache.GetCharacteOfColliderInCache(other);
             Character current = Cache.GetCharacterInCache(characterParent);
+            Debug.Log("1 " + other.name);
             Destroy(gameObject);
             if(target.GetScore() > current.GetScore())
             {
@@ -44,13 +43,12 @@ public class Weapon : WeaponCharacter
             {
                 current.SetScore(current.GetScore() + 2);
             }
-            else
+            else if(target.GetScore() < current.GetScore())
             {
                 current.SetScore(current.GetScore() + 1);
             }
+            
             //target.Die();
-            
-            
         }
     }
     void ActiveWeapon()

@@ -2933,6 +2933,10 @@ PrefabInstance:
       value: Bot
       objectReference: {fileID: 0}
     - target: {fileID: 1697301326856744124, guid: b8ce0fc4c0843a84d94f866bf4fb1df4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697301326856744124, guid: b8ce0fc4c0843a84d94f866bf4fb1df4, type: 3}
       propertyPath: m_TagString
       value: Bot
       objectReference: {fileID: 0}
@@ -4716,7 +4720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6375335837058421781, guid: b8ce0fc4c0843a84d94f866bf4fb1df4, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6417152507171392880, guid: b8ce0fc4c0843a84d94f866bf4fb1df4, type: 3}
       propertyPath: m_Layer
@@ -5744,7 +5748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1697301326856744124, guid: b8ce0fc4c0843a84d94f866bf4fb1df4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1697301326856744124, guid: b8ce0fc4c0843a84d94f866bf4fb1df4, type: 3}
       propertyPath: m_TagString
