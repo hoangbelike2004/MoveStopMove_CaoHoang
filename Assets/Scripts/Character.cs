@@ -13,27 +13,28 @@ public class Character : MonoBehaviour
     [SerializeField] protected float speed,valueSize,valuesizetmp,rangeAttack = 7f;
     [SerializeField] protected int score;
     protected bool isDie,isSelectEnemy,isAugment;
-    public const string IDLE = "Idle", ATTACK = "Attack",DIE = "Dead",RUN = "Run", DANCE_WIN = "DanceWin";
+    public const string IDLE = "Idle", ATTACK = "Attack",DIE = "Dead",RUN = "Run", DANCE_WIN = "DanceWin",DANCE = "Dance";
     private string currentAnim;
     [SerializeField] private Animator anim;
     //[SerializeField] private SphereCollider sphereCollider;
     protected Vector3 CurrentPos;
-    [SerializeField] private int planeLayer,layerWeapon;
+    [SerializeField] protected int planeLayer,layerWeapon;
     public Collider[] hitcollider;
     public List<GameObject> listgameObjectHitcollider;
-    [SerializeField] protected GameObject _weaponFake;
+    [SerializeField] protected Transform _weaponFaketf;
+
     [SerializeField] protected Weapon weaponPrefab;
     [SerializeField] protected Transform firePos;
     [SerializeField] protected CapsuleCollider capsuleCollider;
     [SerializeField] protected WeaponData1 weaponData1;
     [SerializeField] protected TextMeshProUGUI _text;
-    public bool isAttack;
+    public bool isAttack,isPlay;
     private bool[] isUpSize = new bool[5];
     public float time,timer;
 
     public delegate void UpSizeDelegate();
     public static UpSizeDelegate UpSizeEvent;
-
+    
     void Start()
     {
         OnInit();
@@ -45,6 +46,7 @@ public class Character : MonoBehaviour
     protected virtual void OnInit()
     {
         isDie = false;
+        isPlay = false;
         speed = 10f;
         valueSize = 0.1f;
         time = 0;
@@ -70,9 +72,14 @@ public class Character : MonoBehaviour
             anim.SetTrigger(nameAnim);
     }
 
-    protected virtual void ChangeWeapon(Weapon newwp)
+    protected virtual void ChangeWeapon(WeaponType newwp)
     {
-        weaponPrefab = newwp;
+        weaponPrefab = weaponData1.GetWeapon(newwp);
+        GameObject _weaponFake = weaponData1.GetWeaponGOB(newwp);
+        Destroy(_weaponFaketf.GetChild(0).gameObject);
+        Instantiate(_weaponFake, _weaponFaketf);
+
+        //_weaponFake.GetComponent<Weapon>().enabled = false;
     }
 
     protected virtual void ChangeHat()
@@ -100,7 +107,7 @@ public class Character : MonoBehaviour
     }
     public void SetScore(int score)// dung de tang score khi kill bot
     {
-        this.score = score;
+        this.score += score;
         _text.text = this.score.ToString();
         CheckScoreForUpSize(this.score);
     }
@@ -119,27 +126,51 @@ public class Character : MonoBehaviour
             isUpSize[0] = false;
             UpSize();
         }
-        else if(score >= 6 && isUpSize[1])
+         if(score >= 6 && isUpSize[1])
         {
             isUpSize[1] = false;
             UpSize();
         }
-        else if (score >= 14 && isUpSize[2])
+         if (score >= 14 && isUpSize[2])
         {
             isUpSize[2] = false;
             UpSize();
         }
-        else if (score >= 30 && isUpSize[3])
+         if (score >= 30 && isUpSize[3])
         {
             isUpSize[3] = false;
             UpSize();
         }
-        else if (score >= 64 && isUpSize[4])
+         if (score >= 64 && isUpSize[4])
         {
             isUpSize[4] = false;
             UpSize();
         }
     }
+
+    protected void AddScore(Character chr)
+    {
+        if (chr.score < 2)
+        {
+            SetScore(1);
+        }
+        else if (chr.score < 6)
+        {
+            SetScore(2);
+        }
+        else if (chr.score < 14)
+        {
+            SetScore(3);
+        }
+        else if (chr.score < 30)
+        {
+            SetScore(4);
+        }
+        else if (chr.score < 64)
+        {
+            SetScore(5);
+        }
+    } 
     
     public float GetRangeAttack()
     {
@@ -241,6 +272,23 @@ public class Character : MonoBehaviour
             
         }
     }
-   
+
+    protected void PlayGame()
+    {
+        isPlay = true;
+    }
+    protected virtual void OnEnable()
+    {
+        Weapon.ActionAddScore += AddScore;
+        CanvasGamePlay.actionPlayGame += PlayGame;
+        
+    }
+    protected virtual void OnDisable()
+    {
+        Weapon.ActionAddScore -= AddScore;
+        CanvasGamePlay.actionPlayGame -= PlayGame;
+        
+    }
+
 
 }

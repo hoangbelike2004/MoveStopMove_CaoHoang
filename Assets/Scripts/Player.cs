@@ -6,17 +6,14 @@ using UnityEngine;
 public class Player : Character
 {
     [SerializeField] private VariableJoystick _variableJoyStick;
-
+    bool isMove;
     private Vector3 moveDirection;
     void Update()
     {
-        if (!isDie)
+        if (!isDie&&isPlay)
         {
+            
             ChangeState();
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                UpSize();
-            }
 
 
 
@@ -34,20 +31,27 @@ public class Player : Character
     }
     private void MovePlayer()
     {
-        moveDirection = new Vector3(_variableJoyStick.Horizontal, 0, _variableJoyStick.Vertical);
-        moveDirection.Normalize();
+        
+        
         transform.position += moveDirection * speed * Time.deltaTime;
-        transform.forward = moveDirection;
+        
     }
     private void ChangeState()
     {
         if (_variableJoyStick.Horizontal != 0 || _variableJoyStick.Vertical != 0)
         {
-            MovePlayer();
+            moveDirection = new Vector3(_variableJoyStick.Horizontal, 0, _variableJoyStick.Vertical);
+            moveDirection.Normalize();
+            transform.forward = moveDirection;
+            if (CheckGround())
+            {
+                MovePlayer();
+            }
+            
             ChangeAnim(RUN);
             time = timer;
             //Debug.Log(1);
-            _weaponFake.SetActive(true);
+            _weaponFaketf.gameObject.SetActive(true);
 
         }
         else if (_variableJoyStick.Horizontal == 0 && _variableJoyStick.Vertical == 0)
@@ -55,7 +59,7 @@ public class Player : Character
             if (!isAttack ||CurrentPos == Vector3.zero)
             {
                 ChangeAnim(IDLE);
-                _weaponFake.SetActive(true);
+                _weaponFaketf.gameObject.SetActive(true);
                 time += Time.deltaTime;
             }
 
@@ -80,9 +84,34 @@ public class Player : Character
     protected override void OnInit()
     {
         base.OnInit();
-        ChangeWeapon(weaponData1.GetWeapon(WeaponType.hammer));
+        //ChangeWeapon(weaponData1.GetWeapon(WeaponType.hammer));
+        ChangeAnim(DANCE);
         score = 0;
         _text.text = score.ToString();
     }
+    private bool CheckGround()
+    {
+        if(!Physics.Raycast(transform.position + Vector3.up * 2f, transform.forward * 1.5f + Vector3.down * 4f,planeLayer))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        CanvasBuyWeapon.selectWeaponAction += ChangeWeapon;
+    }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        CanvasBuyWeapon.selectWeaponAction -= ChangeWeapon;
+    }
+
+
 }
 

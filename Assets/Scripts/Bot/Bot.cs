@@ -16,9 +16,10 @@ public class Bot : Character
     {
         if(isDie)
         {
+            currentState = null;
             return;
         }
-        if(currentState != null)
+        if(currentState != null && isPlay)
         {
             currentState.OnExcute(this);
         }
@@ -47,14 +48,17 @@ public class Bot : Character
     }
     protected override void OnInit()
     {
+        
         _agent.speed = speed;
         base.OnInit();
         score = Random.Range(0, 15);
         isDie = false;
-        ChangeState(new IdleState());
+        ChangeState(new PartrolState());
         _text.text = score.ToString();
         CheckScoreForUpSize(score);
-        ChangeWeapon(weaponData1.GetWeapon(WeaponType.lollipop));
+        int tmp = Random.Range(0,weaponData1.weapons.Count);
+        Debug.Log(tmp);
+        ChangeWeapon((WeaponType)tmp);
     }
     public void ChangeAnimBot()
     {
@@ -70,7 +74,7 @@ public class Bot : Character
         
         if (!isAttack)
         {
-            _weaponFake.SetActive(true);
+            _weaponFaketf.gameObject.SetActive(true);
         }
         if (isSelectEnemy)
         {
@@ -95,5 +99,12 @@ public class Bot : Character
     {
         base.CheckSight();
     }
-
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+    }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+    }
 }

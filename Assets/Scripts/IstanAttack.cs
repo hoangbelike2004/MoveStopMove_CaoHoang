@@ -6,12 +6,12 @@ public class IstanAttack : MonoBehaviour
 {
     
     [SerializeField] private Character _character;
-    [SerializeField] private GameObject _weaponFake;
+    [SerializeField] private Transform _weaponFaketf;
     [SerializeField] private GameObject parent;
     public void RunAttack()
     {
         _character.InstanWeapon();//create a weapon
-       _weaponFake.SetActive(false);//deactive Weapon fake
+       _weaponFaketf.gameObject.SetActive(false);//deactive Weapon fake
     }
     public void WhenAttackFinished()
     {

@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Weapon : WeaponCharacter
 {
     //[SerializeField] private Character character;
     [SerializeField] Rigidbody rb;
-    public Vector3 target;
+    Character target;
+    Character current;
+    public static UnityAction<Character> ActionAddScore;
     IEnumerator Start()
     {
         Character newCharacter = Cache.GetCharacterInCache(characterParent);
@@ -27,28 +30,13 @@ public class Weapon : WeaponCharacter
     }
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(other.name);
-       if(characterParent != other.GetComponent<Character>())
+       if(other.GetComponent<Character>() != characterParent&&other.GetComponent<Character>()!= null)
         {
-            Character target = Cache.GetCharacteOfColliderInCache(other);
-            Character current = Cache.GetCharacterInCache(characterParent);
-            Debug.Log("1 " + other.name);
-            Destroy(gameObject);
-            if(target.GetScore() > current.GetScore())
-            {
-
-                current.SetScore(current.GetScore() + 3);
-            }
-            else if(target.GetScore() == current.GetScore())
-            {
-                current.SetScore(current.GetScore() + 2);
-            }
-            else if(target.GetScore() < current.GetScore())
-            {
-                current.SetScore(current.GetScore() + 1);
-            }
-            
-            //target.Die();
+            target = Cache.GetCharacteOfColliderInCache(other);
+            current = Cache.GetCharacterInCache(characterParent);
+            gameObject.SetActive(false);
+            target.Die();
+            ActionAddScore?.Invoke(target);
         }
     }
     void ActiveWeapon()

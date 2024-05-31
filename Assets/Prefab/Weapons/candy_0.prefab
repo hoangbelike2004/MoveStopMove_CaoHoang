@@ -139,7 +139,6 @@ MonoBehaviour:
   speed: 10
   timeDeactiveWeapon: 0
   rb: {fileID: 2925251673171813447}
-  target: {x: 0, y: 0, z: 0}
 --- !u!54 &2925251673171813447
 Rigidbody:
   m_ObjectHideFlags: 0
