@@ -25,5 +25,9 @@ public class WeaponData1 : ScriptableObject
     {
         return weapons[(int)type].iconWeapon;
     }
+    public TypeState GetTypeState(WeaponType type)
+    {
+        return weapons[((int)type)].typeState;
+    }
 
 }
