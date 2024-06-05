@@ -57,7 +57,6 @@ public class Bot : Character
         _text.text = score.ToString();
         CheckScoreForUpSize(score);
         int tmp = Random.Range(0,weaponData1.weapons.Count);
-        Debug.Log(tmp);
         ChangeWeapon((WeaponType)tmp);
     }
     public void ChangeAnimBot()

@@ -21,19 +21,31 @@ public class Character : MonoBehaviour
     [SerializeField] protected int planeLayer,layerWeapon;
     public Collider[] hitcollider;
     public List<GameObject> listgameObjectHitcollider;
-    [SerializeField] protected Transform _weaponFaketf;
+    [SerializeField] protected Transform _weaponFaketf,_hairTf,_khientf;
+    [SerializeField] SkinnedMeshRenderer _pants;
 
     [SerializeField] protected Weapon weaponPrefab;
     [SerializeField] protected Transform firePos;
     [SerializeField] protected CapsuleCollider capsuleCollider;
+
+    //data
     [SerializeField] protected WeaponData1 weaponData1;
+    [SerializeField] protected PantData pantData;
+    [SerializeField] protected HatData hatData;
+    [SerializeField] protected ShieldData shieldData;
+
+
+
     [SerializeField] protected TextMeshProUGUI _text;
-    public bool isAttack,isPlay;
+    public bool isAttack,isPlay,isSelect,isHatsNull,isShieldNull,isSuitNull;
+    public Material savepantMaterial;
     private bool[] isUpSize = new bool[5];
     public float time,timer;
 
     public delegate void UpSizeDelegate();
     public static UpSizeDelegate UpSizeEvent;
+
+    public List<GameObject> hats,shields,suits;
     
     void Start()
     {
@@ -46,6 +58,7 @@ public class Character : MonoBehaviour
     protected virtual void OnInit()
     {
         isDie = false;
+       savepantMaterial = _pants.material;
         isPlay = false;
         speed = 10f;
         valueSize = 0.1f;
@@ -82,14 +95,124 @@ public class Character : MonoBehaviour
         //_weaponFake.GetComponent<Weapon>().enabled = false;
     }
 
-    protected virtual void ChangeHat()
+    protected virtual void ChangeHat(HatType newType)
+    {
+        if(_hairTf.childCount != 0)
+        {
+            //hats.Add(_hairTf.GetChild(0).gameObject);
+            //Destroy(_hairTf.GetChild(0).gameObject);
+            _hairTf.GetChild(0).gameObject.SetActive(false);
+            isHatsNull = false;
+        }
+        else
+        {
+            isHatsNull = true;
+        }
+        GameObject hat = Instantiate(hatData.GetHat(newType),_hairTf);
+        if(hats.Count >= 2)
+        {
+            hats[hats.Count - 1].gameObject.SetActive(false);//deactive thang sau thang duoc them vao la(hat)
+        }
+        
+        hats.Add(hat);
+        hat.transform.SetParent(_hairTf);
+        
+    }
+    protected void NotSelected()
+    {
+        _pants.material = savepantMaterial;//khi ko chon thi tra ve cai material ban dau
+
+        //SAVEN'T HAT
+        if (isHatsNull)//nguoi choi ko co hat tren dau khi chua vao shop
+        {
+            for (int i = 0; i < hats.Count; i++)
+            {
+                Destroy(hats[i].gameObject);
+            }
+            hats.Clear();
+        }
+        else if(!isHatsNull && hats.Count > 0)
+        {
+            
+            hats[0].gameObject.SetActive(true);
+            for (int i = hats.Count - 1; i > 0; i--)
+            {
+                Destroy(hats[i].gameObject);
+                hats.RemoveAt(i);
+            }
+        }
+
+        //SAVEN'T SHIELD
+        if (isShieldNull)//nguoi choi ko co hat tren dau khi chua vao shop
+        {
+            for (int i = 0; i < shields.Count; i++)
+            {
+                Destroy(shields[i].gameObject);
+            }
+            shields.Clear();
+        }
+        else if (!isShieldNull && shields.Count > 0)
+        {
+
+            shields[0].gameObject.SetActive(true);
+            for (int i = shields.Count - 1; i > 0; i--)
+            {
+                Destroy(shields[i].gameObject);
+                shields.RemoveAt(i);
+            }
+        }
+    }
+    protected void Selected()
+    {
+        savepantMaterial = _pants.material;
+        //SAVE HAT
+        for (int i = hats.Count - 2; i >= 0; i--)
+        {
+            Destroy(hats[i].gameObject);
+            hats.RemoveAt(i);
+        }
+
+
+        //SAVE SHIELD
+        for (int i = shields.Count - 2; i >= 0; i--)
+        {
+            Destroy(shields[i].gameObject);
+            shields.RemoveAt(i);
+        }
+    }
+    protected virtual void ChangShield(ShieldType newType)
+    {
+        if (_khientf.childCount != 0)
+        {
+            //hats.Add(_hairTf.GetChild(0).gameObject);
+            //Destroy(_hairTf.GetChild(0).gameObject);
+            isShieldNull = false;
+            _khientf.GetChild(0).gameObject.SetActive(false);
+        }
+        else
+        {
+            isShieldNull = true;
+        }
+        GameObject khien = Instantiate(shieldData.GetShield(newType),_khientf);
+        if (shields.Count >= 2)
+        {
+            shields[shields.Count - 1].gameObject.SetActive(false);//deactive thang sau thang duoc them vao la(Shield)
+        }
+        shields.Add(khien);
+        khien.transform.SetParent(_khientf);
+    }
+    protected virtual void ChangSuite(SuitType newType)
     {
 
     }
 
-    protected virtual void ChangePant()
+    protected virtual void ChangePant(PantType newType)
     {
-
+        if(savepantMaterial == null)
+        {
+            savepantMaterial = _pants.material;
+        }
+        _pants.material = pantData.GetPants(newType);
     }
 
     protected virtual void AttackRang()

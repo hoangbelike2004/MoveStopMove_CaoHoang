@@ -16,4 +16,8 @@ public class ShieldData : ScriptableObject
     {
         return shields[(int)type].shieldprefab;
     }
+    public Sprite GetIconShield(ShieldType type)
+    {
+        return shields[(int)type].iconshield;
+    }
 }

@@ -1,18 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum PantType
 {
-    pantBatman,pantchambi,pantcomy
+    pantBatman, pantChambi, pantComy, pantDabao, pantOnion,pantPokemon, pantRainbow
 }
 [CreateAssetMenu(fileName = "Pant")]
-public class Pants : ScriptableObject
+public class PantData : ScriptableObject
 {
     public List<PantItem> pants;
 
-    public GameObject GetPants(PantType type)
+    public Material GetPants(PantType type)
     {
-        return pants[(int)type].pantprefab;
+        return pants[(int)type].pantMaterial;
+    }
+    public Sprite GetSpritePant(PantType type)
+    {
+        return pants[(int)type].iconpant;
     }
 }

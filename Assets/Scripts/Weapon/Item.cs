@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[Serializable]
+
 public enum TypeState { notyetowned, selected, haveowned }
+[Serializable]
 public class WeaponItem
 {
     public Weapon prefabWeapon;
@@ -25,7 +26,7 @@ public class HatItem
 [Serializable]
 public class PantItem
 {
-    public GameObject pantprefab;
+    public Material pantMaterial;
     public PantType pantType;
     public int price;
     public Sprite iconpant;
@@ -40,9 +41,15 @@ public class ShieldItem
     public Sprite iconshield;
     public TypeState typeState;
 }
-public class Item : MonoBehaviour
-{
 
+[Serializable]
+public class SuitdItem
+{
+    public GameObject suitprefab;
+    public SuitType suittype;
+    public int price;
+    public Sprite iconsuit;
+    public TypeState typeState;
 }
 
 

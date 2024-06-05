@@ -8,6 +8,7 @@ public class Player : Character
     [SerializeField] private VariableJoystick _variableJoyStick;
     bool isMove;
     private Vector3 moveDirection;
+    [SerializeField] Canvas _canvasRangeAttack;
     void Update()
     {
         if (!isDie&&isPlay)
@@ -85,7 +86,7 @@ public class Player : Character
     {
         base.OnInit();
         //ChangeWeapon(weaponData1.GetWeapon(WeaponType.hammer));
-        ChangeAnim(DANCE);
+        ChangeAnim(IDLE);
         score = 0;
         _text.text = score.ToString();
     }
@@ -100,16 +101,50 @@ public class Player : Character
             return true;
         }
     }
-
+    void ActiveCanvasRangeAttack()
+    {
+        _canvasRangeAttack.gameObject.SetActive(true);
+    }
+    void ChangeAnimToDANCE()
+    {
+        ChangeAnim(DANCE);
+    }
+    void ChangeAnimWhenExitSKinToIDLE()
+    {
+        ChangeAnim(IDLE);
+    }
     protected override void OnEnable()
     {
         base.OnEnable();
         CanvasBuyWeapon.selectWeaponAction += ChangeWeapon;
+        CanvasGamePlay.actionPlayGame += ActiveCanvasRangeAttack;
+        CanvasGamePlay.actionChangeSkinCameraFlow += ChangeAnimToDANCE;
+        CanvasBuySkin.actionChangeExitSkinCameraFlow += ChangeAnimWhenExitSKinToIDLE;
+
+        //action change SKin
+        ItemUIHat.ChangeHatAction += ChangeHat;
+        ItemUIPant.ChangePantAction += ChangePant;
+        ItemUIShield.ChangeShieldAction += ChangShield;
+
+        //action xem skin co duoc select hay không
+        CanvasBuySkin.actionSelectSkin += Selected;
+        CanvasBuySkin.actionNotSelectSkin += NotSelected;
     }
     protected override void OnDisable()
     {
         base.OnDisable();
+        CanvasGamePlay.actionPlayGame -= ActiveCanvasRangeAttack;
         CanvasBuyWeapon.selectWeaponAction -= ChangeWeapon;
+        CanvasGamePlay.actionChangeSkinCameraFlow -= ChangeAnimToDANCE;
+        CanvasBuySkin.actionChangeExitSkinCameraFlow -= ChangeAnimWhenExitSKinToIDLE;
+
+
+        ItemUIHat.ChangeHatAction -= ChangeHat;
+        ItemUIPant.ChangePantAction -= ChangePant;
+        ItemUIShield.ChangeShieldAction -= ChangShield;
+
+        CanvasBuySkin.actionSelectSkin -= Selected;
+        CanvasBuySkin.actionNotSelectSkin -= NotSelected;
     }
 
 

@@ -18,6 +18,8 @@ public class CanvasGamePlay : UiCanvas
     [SerializeField] GameObject adsobj,soundobj,vibrateobj,scoreobj;
     [SerializeField] TextMeshProUGUI _scoreOutSlide;
     public static UnityAction actionPlayGame;
+    public static UnityAction actionChangeSkinCameraFlow;
+    
     private void Start()
     {
         _playButton.onClick.AddListener(PlayGame);
@@ -77,6 +79,8 @@ public class CanvasGamePlay : UiCanvas
     private void ChangeSkinButton()
     {
         UiManager.Instance.OpenUI<CanvasBuySkin>();
+        actionChangeSkinCameraFlow.Invoke();
+        UiManager.Instance.CloseUI<CanvasGamePlay>(0f);
     }
 
     private void ScoreUpdate()

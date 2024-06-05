@@ -1450,7 +1450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 26.01, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 70, y: -38}
+  m_AnchoredPosition: {x: 30, y: -38}
   m_SizeDelta: {x: 400, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8540395314469435801
@@ -1481,7 +1481,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SKIN
+  m_text: WEAPON
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2011,6 +2011,10 @@ MonoBehaviour:
   buttonDeactiveSound: {fileID: 8224036536992769280}
   buttonActiveVibrate: {fileID: 6982696689366426658}
   buttonDeactiveVibrate: {fileID: 2146923633895097467}
+  adsobj: {fileID: 0}
+  soundobj: {fileID: 0}
+  vibrateobj: {fileID: 0}
+  scoreobj: {fileID: 0}
   _scoreOutSlide: {fileID: 7744735584939935600}
 --- !u!1 &6109613469029993512
 GameObject:
