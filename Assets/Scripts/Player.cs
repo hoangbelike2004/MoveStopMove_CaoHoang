@@ -82,7 +82,7 @@ public class Player : Character
         }
 
     }
-    protected override void OnInit()
+    public override void OnInit()
     {
         base.OnInit();
         //ChangeWeapon(weaponData1.GetWeapon(WeaponType.hammer));
@@ -113,6 +113,27 @@ public class Player : Character
     {
         ChangeAnim(IDLE);
     }
+    void Checkdressing()
+    {
+        if (_khientf.childCount != 0)
+        {
+            isShieldNull = false;
+        }
+        else
+        {
+            isShieldNull = true;
+        }
+
+        if (_hairTf.childCount != 0)
+        {
+            isHatsNull = false;
+        }
+        else
+        {
+            isHatsNull = true;
+        }
+
+    }
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -125,10 +146,15 @@ public class Player : Character
         ItemUIHat.ChangeHatAction += ChangeHat;
         ItemUIPant.ChangePantAction += ChangePant;
         ItemUIShield.ChangeShieldAction += ChangShield;
+        CanvasBuySkin.actionSelectHatStart += ChangeHat;
+        CanvasBuySkin.actionSelectPantStart += ChangePant;
+        CanvasBuySkin.actionSelectShieldStart += ChangShield;
+        
 
         //action xem skin co duoc select hay không
         CanvasBuySkin.actionSelectSkin += Selected;
         CanvasBuySkin.actionNotSelectSkin += NotSelected;
+        CanvasGamePlay.actionChangeSkinCameraFlow += Checkdressing;//ktra nguoi choi co dang mac do khi vao shop khong
     }
     protected override void OnDisable()
     {
@@ -142,6 +168,10 @@ public class Player : Character
         ItemUIHat.ChangeHatAction -= ChangeHat;
         ItemUIPant.ChangePantAction -= ChangePant;
         ItemUIShield.ChangeShieldAction -= ChangShield;
+        CanvasBuySkin.actionSelectHatStart -= ChangeHat;
+        CanvasBuySkin.actionSelectPantStart -= ChangePant;
+        CanvasBuySkin.actionSelectShieldStart -= ChangShield;
+        CanvasGamePlay.actionChangeSkinCameraFlow -= Checkdressing;
 
         CanvasBuySkin.actionSelectSkin -= Selected;
         CanvasBuySkin.actionNotSelectSkin -= NotSelected;

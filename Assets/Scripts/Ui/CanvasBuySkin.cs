@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.VirtualTexturing;
@@ -19,6 +20,9 @@ public class CanvasBuySkin : UiCanvas
     [SerializeField] Button ExitBuySkin;
     [SerializeField] Button selectSkinButton;
     [SerializeField] Button buySkinButton;
+
+    [Header("Text")]
+    [SerializeField] TextMeshProUGUI _textScore;
 
     [Header("IconButton")]
     [SerializeField] Image[] IconButton = new Image[4];
@@ -51,10 +55,20 @@ public class CanvasBuySkin : UiCanvas
     public static UnityAction actionChangeExitSkinCameraFlow;
     public static UnityAction actionSelectSkin;
     public static UnityAction actionNotSelectSkin;
+    public static UnityAction<HatType> actionSelectHatStart;
+    public static UnityAction<ShieldType> actionSelectShieldStart;
+    public static UnityAction<PantType> actionSelectPantStart;
+    public static UnityAction<SuitType> actionSelectSuitStart;
+
+
+    public HatItem _hatitem;
+    public ShieldItem _shieldItem;
+    public PantItem _pantitem;
+    public SuitdItem _suitditem;
     private void Awake()
     {
         colorCurrent = IconButton[0].color;
-        InstantiateHat();
+        
     }
     private void Start()
     {
@@ -64,6 +78,7 @@ public class CanvasBuySkin : UiCanvas
         SuitButton.onClick.AddListener(InstantiateSuit);
         ExitBuySkin.onClick.AddListener(Exit);
         selectSkinButton.onClick.AddListener(SelectSkin);
+        buySkinButton.onClick.AddListener(BuySkin);
     }
     void InstantiatePant()
     {
@@ -77,9 +92,27 @@ public class CanvasBuySkin : UiCanvas
                 item.SetSprite(pantData.GetSpritePant((PantType)i));
                 item.transform.SetParent(rectTransformPant);
                 item.SetDataPant(pantData.pants[i]);
-            }
-            
+                if (i == 0)
+                {
+                    SetBuySkin(item.GetStateTypePant());
+                }
+
+            } 
         }
+        for (int i = 0; i < pantData.pants.Count; i++)
+        {
+            if (i == 0)
+            {
+                rectTransformPant.GetChild(i).GetComponent<ItemUIPant>().ActiveSelect();//dung de active cai effect select khi click button ItemShields
+            }
+            else
+            {
+                rectTransformPant.GetChild(i).GetComponent<ItemUIPant>().DeActiveSelect();
+            }
+
+        }
+        actionSelectPantStart.Invoke(rectTransformPant.GetChild(0).GetComponent<ItemUIPant>().GetPantType());//truyen type of shield = action de goi den chang shield
+
     }
     void InstantiateHat()
     {
@@ -93,12 +126,30 @@ public class CanvasBuySkin : UiCanvas
                 item.SetIconHat(hatData.GetIcon((HatType)i));
                 item.transform.SetParent(RectTransformHat);
                 item.SetDataHat(hatData.hats[i]);
+                if(i == 0)
+                {
+                    SetBuySkin(item.GetTypeStateHat());
+                }
             }
             
         }
+        for (int i = 0; i < hatData.hats.Count; i++)
+        {
+            if (i == 0)
+            {
+                RectTransformHat.GetChild(i).GetComponent<ItemUIHat>().ActiveSelect();//dung de active cai effect select khi click button ItemShields
+            }
+            else
+            {
+                RectTransformHat.GetChild(i).GetComponent<ItemUIHat>().DeActiveSelect();
+            }
+
+        }
+        actionSelectHatStart.Invoke(RectTransformHat.GetChild(0).GetComponent<ItemUIHat>().GetHatType());//truyen type of shield = action de goi den chang shield
+
     }
 
-    void InstantiateShield()
+    void InstantiateShield()//tao ra cac icon khien
     {
         ActiveScrollObjectUsed(TypeScroll.scrollShield);
         ChangeColorObjectUsed(TypeScroll.scrollShield);
@@ -110,9 +161,28 @@ public class CanvasBuySkin : UiCanvas
                 item.SetIconShield(shieldData.GetIconShield((ShieldType)i));
                 item.transform.SetParent(rectTransformShield);
                 item.SetDataShield(shieldData.shields[i]);
+                
+                if (i == 0)
+                {
+
+                    SetBuySkin(item.GetStateTypeShield());
+                }
             }
-           
         }
+        for (int i = 0; i < shieldData.shields.Count; i++)
+        {
+                if (i == 0)
+                {
+                rectTransformShield.GetChild(i).GetComponent<ItemUIShield>().ActiveSelect();//dung de active cai effect select khi click button ItemShields
+            }
+            else
+            {
+                rectTransformShield.GetChild(i).GetComponent<ItemUIShield>().DeActiveSelect();
+            }
+            
+        }
+
+        actionSelectShieldStart.Invoke(rectTransformShield.GetChild(0).GetComponent<ItemUIShield>().GetShieldType());//truyen type of shield = action de goi den chang shield
     }
 
     void InstantiateSuit()
@@ -157,6 +227,7 @@ public class CanvasBuySkin : UiCanvas
         UiManager.Instance.CloseUI<CanvasBuySkin>(0f);
         actionChangeExitSkinCameraFlow.Invoke();
         UiManager.Instance.OpenUI<CanvasGamePlay>();
+        GameController.Instance.UpdateScore();
         actionNotSelectSkin.Invoke();
     }
     public void SelectSkin()//chon skin
@@ -167,5 +238,151 @@ public class CanvasBuySkin : UiCanvas
         actionChangeExitSkinCameraFlow.Invoke();
         UiManager.Instance.OpenUI<CanvasGamePlay>();
         actionSelectSkin.Invoke();
+    }
+    public void BuySkin()
+    {
+        if(_hatitem != null)
+        {
+            GameController.Instance.SetScore(_hatitem.price);
+            _hatitem.typeState = TypeState.haveowned;
+            SetBuySkin(_hatitem.typeState);
+        }
+        else if(_pantitem != null)
+        {
+            GameController.Instance.SetScore(_pantitem.price);
+            _pantitem.typeState = TypeState.haveowned;
+            SetBuySkin(_pantitem.typeState);
+        }
+        else if (_shieldItem != null)
+        {
+            GameController.Instance.SetScore(_shieldItem.price);
+            _shieldItem.typeState = TypeState.haveowned;
+            SetBuySkin(_shieldItem.typeState);
+        }
+        else if(_suitditem != null)
+        {
+            GameController.Instance.SetScore(_suitditem.price);
+            _suitditem.typeState = TypeState.haveowned;
+            SetBuySkin(_suitditem.typeState);
+        }
+        
+
+    }
+
+
+    //active effect select cua hatitem, an hien nut mua va chon
+    void ActiveAndDeActiveEffectSelectHat(HatType newtype,TypeState newState)
+    {
+        for(int i = 0; i < RectTransformHat.childCount; i++)
+        {
+            if(RectTransformHat.GetChild(i).GetComponent<ItemUIHat>().GetHatType() == newtype)
+            {
+                RectTransformHat.GetChild(i).GetComponent<ItemUIHat>().ActiveSelect();
+                SetBuySkin(newState);
+            }
+            else
+            {
+                RectTransformHat.GetChild(i).GetComponent<ItemUIHat>().DeActiveSelect();
+            }
+        }
+    }
+    //active effect select cua ItemUIPant, an hien nut mua va chon
+    void ActiveAndDeActiveEffectSelectPant(PantType newtype, TypeState newState)
+    {
+        for (int i = 0; i < rectTransformPant.childCount; i++)
+        {
+            if (rectTransformPant.GetChild(i).GetComponent<ItemUIPant>().GetPantType() == newtype)
+            {
+                rectTransformPant.GetChild(i).GetComponent<ItemUIPant>().ActiveSelect();
+                SetBuySkin(newState);
+            }
+            else
+            {
+                rectTransformPant.GetChild(i).GetComponent<ItemUIPant>().DeActiveSelect();
+            }
+        }
+    }
+    //active effect select cua ItemUIShield, an hien nut mua va chon
+    void ActiveAndDeActiveEffectSelectShield(ShieldType newtype, TypeState newState)
+    {
+        for (int i = 0; i < rectTransformShield.childCount; i++)
+        {
+            if (rectTransformShield.GetChild(i).GetComponent<ItemUIShield>().GetShieldType() == newtype)
+            {
+                rectTransformShield.GetChild(i).GetComponent<ItemUIShield>().ActiveSelect();
+                SetBuySkin(newState);
+            }
+            else
+            {
+                rectTransformShield.GetChild(i).GetComponent<ItemUIShield>().DeActiveSelect();
+            }
+        }
+    }
+
+    //overload Setscore cac loai item
+    void SetScoreItem(int value,HatItem newHat)
+    {
+        _textScore.text = value.ToString();
+        _hatitem = newHat;
+    }
+    void SetScoreItem(int value, PantItem newPant)
+    {
+        _textScore.text = value.ToString();
+        _pantitem = newPant;
+    }
+    void SetScoreItem(int value, ShieldItem newShield)
+    {
+        _textScore.text = value.ToString();
+        _shieldItem = newShield;
+    }
+    void SetScoreItem(int value, SuitdItem suit)
+    {
+        _textScore.text = value.ToString();
+        _suitditem = suit;
+    }
+
+    void SetBuySkin(TypeState newType)//dung de active button select khi item do da duoc mua và nguoc lai
+    {
+        if (newType == TypeState.haveowned)
+        {
+            selectSkinButton.gameObject.SetActive(true);
+            buySkinButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            buySkinButton.gameObject.SetActive(true);
+            selectSkinButton.gameObject.SetActive(false);
+        }
+    }
+    private void OnEnable()
+    {
+        //dung de bat tat nut mua va nut select
+        //con dung de bat tat hieu ung select
+        ItemUIHat.selectHatEffectaction += ActiveAndDeActiveEffectSelectHat;
+        ItemUIPant.selectPantEffectAction += ActiveAndDeActiveEffectSelectPant;
+        ItemUIShield.SelectShieldEffectAction += ActiveAndDeActiveEffectSelectShield;
+
+
+        //set price cho tung item
+        ItemUIHat.GetPriceHataction += SetScoreItem;
+        ItemUIPant.GetPricePantaction += SetScoreItem;
+        ItemUIShield.GetPriceShieldaction += SetScoreItem;
+
+        CanvasGamePlay.actionChangeSkinCameraFlow += InstantiateHat;//khi an vao nut changeskin o gamePlay thi se goi den ham tao ra mu va focus vao cai mũ dau tien
+    }
+
+    private void OnDisable()
+    {
+        CanvasGamePlay.actionChangeSkinCameraFlow -= InstantiateHat;
+        ItemUIHat.selectHatEffectaction -= ActiveAndDeActiveEffectSelectHat;
+        ItemUIPant.selectPantEffectAction -= ActiveAndDeActiveEffectSelectPant;
+
+
+        
+        ItemUIHat.GetPriceHataction -= SetScoreItem;
+        ItemUIPant.GetPricePantaction -= SetScoreItem;
+        ItemUIShield.GetPriceShieldaction -= SetScoreItem;
+
+        ItemUIShield.SelectShieldEffectAction -= ActiveAndDeActiveEffectSelectShield;
     }
 }

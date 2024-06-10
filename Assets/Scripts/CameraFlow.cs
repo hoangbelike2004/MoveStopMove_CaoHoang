@@ -31,7 +31,7 @@ public class CameraFlow : MonoBehaviour
             if (_isPlaying)//khi bat dau choi
             {
                 
-                valuesize = _playerTf.GetComponent<Character>().GetValueSize() * 12;//tang size cua camera
+                valuesize = _playerTf.GetComponent<Player>().GetValueSize() * 12;//tang size cua camera
                 StartCoroutine(FlowPlayer());
 
             }

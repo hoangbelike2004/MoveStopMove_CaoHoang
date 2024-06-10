@@ -15,6 +15,7 @@ public class PartrolState : IState
 
     public void OnExcute(Bot bot)
     {
+        
         time += Time.deltaTime;
         if(time <= timer)
         {

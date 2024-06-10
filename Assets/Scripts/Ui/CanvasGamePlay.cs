@@ -17,11 +17,14 @@ public class CanvasGamePlay : UiCanvas
     [SerializeField] Button buttonDeactiveVibrate;
     [SerializeField] GameObject adsobj,soundobj,vibrateobj,scoreobj;
     [SerializeField] TextMeshProUGUI _scoreOutSlide;
+
+
     public static UnityAction actionPlayGame;
     public static UnityAction actionChangeSkinCameraFlow;
     
     private void Start()
     {
+        _scoreOutSlide.text = GameController.Instance.GetScore().ToString();
         _playButton.onClick.AddListener(PlayGame);
         _weaponButton.onClick.AddListener(ChangeWeaponButton);
         _skinButton.onClick.AddListener(ChangeSkinButton);
@@ -38,6 +41,7 @@ public class CanvasGamePlay : UiCanvas
         UiManager.Instance.OpenUI<CanvasSetting>();
         actionPlayGame?.Invoke();
     }
+    
     void Effect()
     {
 
@@ -79,12 +83,22 @@ public class CanvasGamePlay : UiCanvas
     private void ChangeSkinButton()
     {
         UiManager.Instance.OpenUI<CanvasBuySkin>();
-        actionChangeSkinCameraFlow.Invoke();
+        actionChangeSkinCameraFlow.Invoke();//dung chung action de kiem tra xem nguoi choi cs dang m?c gi khi vao shop skin khong 
+        //action nay con de khi mo sho len thi se focus vao cai item mu dau tien
+        //va khi an vao shop skin thi camera se thay doi
         UiManager.Instance.CloseUI<CanvasGamePlay>(0f);
     }
-
-    private void ScoreUpdate()
+    void ScoreText(int score)
     {
+        _scoreOutSlide.text = score.ToString();
+    }
+    private void OnEnable()
+    {
+        GameController.updateTextScoreAction += ScoreText;
+    }
 
+    private void OnDisable()
+    {
+        GameController.updateTextScoreAction -= ScoreText;
     }
 }

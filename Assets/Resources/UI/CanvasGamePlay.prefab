@@ -2011,10 +2011,10 @@ MonoBehaviour:
   buttonDeactiveSound: {fileID: 8224036536992769280}
   buttonActiveVibrate: {fileID: 6982696689366426658}
   buttonDeactiveVibrate: {fileID: 2146923633895097467}
-  adsobj: {fileID: 0}
-  soundobj: {fileID: 0}
-  vibrateobj: {fileID: 0}
-  scoreobj: {fileID: 0}
+  adsobj: {fileID: 2090399961119728556}
+  soundobj: {fileID: 5410420059005380387}
+  vibrateobj: {fileID: 2824635897945601625}
+  scoreobj: {fileID: 7251722747248578170}
   _scoreOutSlide: {fileID: 7744735584939935600}
 --- !u!1 &6109613469029993512
 GameObject:

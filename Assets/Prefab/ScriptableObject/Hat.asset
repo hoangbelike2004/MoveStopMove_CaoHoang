@@ -17,25 +17,25 @@ MonoBehaviour:
     hattype: 0
     price: 500
     iconhat: {fileID: 21300000, guid: 2f8937590677b044b8619858abca9ecf, type: 3}
-    typeState: 0
+    typeState: 2
   - hatprefab: {fileID: 7940812813334809016, guid: 4359b4edefea7d446a2d6562cc67ee18, type: 3}
     hattype: 1
-    price: 500
+    price: 0
     iconhat: {fileID: 21300000, guid: 7ecc7cd28cb66fb41ac2e56ca5e22d5c, type: 3}
-    typeState: 0
+    typeState: 2
   - hatprefab: {fileID: 8344359109943957246, guid: eb597a95a420afb409fb14a75a38dbf6, type: 3}
     hattype: 2
-    price: 500
+    price: 200
     iconhat: {fileID: 21300000, guid: a50fa6b5fea3d264cbec440c2da1dbf8, type: 3}
     typeState: 0
   - hatprefab: {fileID: 3336976624917959417, guid: c116977ac8e6e0e42889ebcfa705f87a, type: 3}
     hattype: 3
-    price: 500
+    price: 300
     iconhat: {fileID: 21300000, guid: 5dd6afb8b1bc7b947853e77fc8811be4, type: 3}
     typeState: 0
   - hatprefab: {fileID: 4916015212281843486, guid: dbe9f42add164c64fa7ef1d0b0335461, type: 3}
     hattype: 4
-    price: 500
+    price: 400
     iconhat: {fileID: 21300000, guid: 76e934370403f35428e37cc379bed4c7, type: 3}
     typeState: 0
   - hatprefab: {fileID: 5026144868399492914, guid: a8ce4574495db724682ee49e654af1e8, type: 3}

@@ -11,7 +11,10 @@ public class ItemUIShield : MonoBehaviour
 
     [SerializeField] Button buttonthis;
     [SerializeField] Image Icon;
+    [SerializeField] Image backGround;
     public static UnityAction<ShieldType> ChangeShieldAction;
+    public static UnityAction<ShieldType,TypeState> SelectShieldEffectAction;
+    public static UnityAction<int,ShieldItem> GetPriceShieldaction;
     private void Start()
     {
         buttonthis.onClick.AddListener(SelectShield);
@@ -30,6 +33,25 @@ public class ItemUIShield : MonoBehaviour
 
     public void SelectShield()
     {
+        SelectShieldEffectAction.Invoke(ShieldItem.shieldtype, ShieldItem.typeState);
         ChangeShieldAction.Invoke(ShieldItem.shieldtype);
+        GetPriceShieldaction.Invoke(ShieldItem.price, ShieldItem);
+    }
+    public TypeState GetStateTypeShield()
+    {
+        return ShieldItem.typeState;
+    }
+    public ShieldType GetShieldType()
+    {
+        return ShieldItem.shieldtype;
+    }
+    public void ActiveSelect()
+    {
+        backGround.gameObject.SetActive(true);
+    }
+
+    public void DeActiveSelect()
+    {
+        backGround.gameObject.SetActive(false);
     }
 }

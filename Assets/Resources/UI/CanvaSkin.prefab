@@ -991,7 +991,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6864230436776269210
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1578,6 +1578,7 @@ MonoBehaviour:
   ExitBuySkin: {fileID: 2928353946409795969}
   selectSkinButton: {fileID: 4413039573897650384}
   buySkinButton: {fileID: 3546894380814778906}
+  _textScore: {fileID: 5723005064893208418}
   IconButton:
   - {fileID: 1659124902011041651}
   - {fileID: 4939799291202044875}

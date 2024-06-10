@@ -36,7 +36,9 @@ public class Weapon : WeaponCharacter
             current = Cache.GetCharacterInCache(characterParent);
             gameObject.SetActive(false);
             target.Die();
-            ActionAddScore?.Invoke(target);
+              ActionAddScore?.Invoke(current);
+
+            
         }
     }
     void ActiveWeapon()

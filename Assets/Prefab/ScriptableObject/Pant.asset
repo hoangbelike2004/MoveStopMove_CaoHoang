@@ -17,17 +17,17 @@ MonoBehaviour:
     pantType: 0
     price: 200
     iconpant: {fileID: 21300000, guid: 0806d2ad9e543b64dab8a6583c3b2039, type: 3}
-    typeState: 0
+    typeState: 2
   - pantMaterial: {fileID: 2100000, guid: 41e7ccccdb924ab46a3a03529d945c3c, type: 2}
     pantType: 1
     price: 200
     iconpant: {fileID: 21300000, guid: 6d8c21d8e55123441ba02ac0fce3d675, type: 3}
-    typeState: 0
+    typeState: 2
   - pantMaterial: {fileID: 2100000, guid: 5811bf183b7317b4baea7c2623927fdd, type: 2}
     pantType: 2
     price: 100
     iconpant: {fileID: 21300000, guid: 16a96fb5954afd84abacd4acf0818139, type: 3}
-    typeState: 0
+    typeState: 2
   - pantMaterial: {fileID: 2100000, guid: 0a901cd40ed8f2f4d8c9e85f07ded738, type: 2}
     pantType: 3
     price: 100
@@ -35,16 +35,16 @@ MonoBehaviour:
     typeState: 0
   - pantMaterial: {fileID: 2100000, guid: d35afe3635428e7439cd66f859b967b8, type: 2}
     pantType: 4
-    price: 100
+    price: 300
     iconpant: {fileID: 21300000, guid: be770e2a4bda55147bff7cac14cb8b34, type: 3}
     typeState: 0
   - pantMaterial: {fileID: 2100000, guid: d25266403844b6940bd8ba53e8b5400e, type: 2}
     pantType: 5
-    price: 100
+    price: 300
     iconpant: {fileID: 21300000, guid: a482b056a7db15c449864b0f6737a4cb, type: 3}
     typeState: 0
   - pantMaterial: {fileID: 2100000, guid: 2d6af325b82df1c4a90faf3500be78fb, type: 2}
     pantType: 6
-    price: 100
+    price: 500
     iconpant: {fileID: 21300000, guid: 17737506398ad284aa00a46f0508ac61, type: 3}
     typeState: 0

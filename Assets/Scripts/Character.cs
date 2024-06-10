@@ -55,11 +55,10 @@ public class Character : MonoBehaviour
     //{
 
     //}
-    protected virtual void OnInit()
+    public virtual void OnInit()
     {
         isDie = false;
        savepantMaterial = _pants.material;
-        isPlay = false;
         speed = 10f;
         valueSize = 0.1f;
         time = 0;
@@ -99,10 +98,9 @@ public class Character : MonoBehaviour
     {
         if(_hairTf.childCount != 0)
         {
-            //hats.Add(_hairTf.GetChild(0).gameObject);
-            //Destroy(_hairTf.GetChild(0).gameObject);
             _hairTf.GetChild(0).gameObject.SetActive(false);
-            isHatsNull = false;
+            
+
         }
         else
         {
@@ -153,7 +151,6 @@ public class Character : MonoBehaviour
         }
         else if (!isShieldNull && shields.Count > 0)
         {
-
             shields[0].gameObject.SetActive(true);
             for (int i = shields.Count - 1; i > 0; i--)
             {
@@ -164,6 +161,7 @@ public class Character : MonoBehaviour
     }
     protected void Selected()
     {
+        isSuitNull = false;
         savepantMaterial = _pants.material;
         //SAVE HAT
         for (int i = hats.Count - 2; i >= 0; i--)
@@ -179,6 +177,8 @@ public class Character : MonoBehaviour
             Destroy(shields[i].gameObject);
             shields.RemoveAt(i);
         }
+        isShieldNull = _khientf.childCount != 0 ? true : false;
+        isHatsNull = _hairTf.childCount != 0 ? true : false;
     }
     protected virtual void ChangShield(ShieldType newType)
     {
@@ -186,12 +186,8 @@ public class Character : MonoBehaviour
         {
             //hats.Add(_hairTf.GetChild(0).gameObject);
             //Destroy(_hairTf.GetChild(0).gameObject);
-            isShieldNull = false;
+          // isShieldNull = false;
             _khientf.GetChild(0).gameObject.SetActive(false);
-        }
-        else
-        {
-            isShieldNull = true;
         }
         GameObject khien = Instantiate(shieldData.GetShield(newType),_khientf);
         if (shields.Count >= 2)
@@ -275,23 +271,23 @@ public class Character : MonoBehaviour
     {
         if (chr.score < 2)
         {
-            SetScore(1);
+            chr.SetScore(1);
         }
         else if (chr.score < 6)
         {
-            SetScore(2);
+            chr.SetScore(2);
         }
         else if (chr.score < 14)
         {
-            SetScore(3);
+            chr.SetScore(3);
         }
         else if (chr.score < 30)
         {
-            SetScore(4);
+            chr.SetScore(4);
         }
         else if (chr.score < 64)
         {
-            SetScore(5);
+            chr.SetScore(5);
         }
     } 
     
@@ -332,7 +328,6 @@ public class Character : MonoBehaviour
     {
         isDie = true;
         capsuleCollider.enabled = false;
-        speed = 0;
         ChangeAnim(DIE);
         
     }
