@@ -7,8 +7,26 @@ public class Player : Character
 {
     [SerializeField] private VariableJoystick _variableJoyStick;
     bool isMove;
-    private Vector3 moveDirection;
+    private Vector3 moveDirection,startpos;
+    public Quaternion currentRotation;
     [SerializeField] Canvas _canvasRangeAttack;
+    private void Awake()
+    {
+        startpos = transform.position;
+        currentRotation = transform.rotation;
+        hatType = HatType.nonehat;
+        shieldType = ShieldType.noneShield;
+        pantType = PantType.nonePant;
+        if(DataManager.Instance.GetDataPlayer() != null)
+        {
+            DataPlayer dtplayer = DataManager.Instance.GetDataPlayer();
+            ChangeHat(dtplayer.hatType);
+            ChangePant(dtplayer.pantTypePlayer);
+            ChangShield(dtplayer.shieldType);
+            ChangeWeapon(dtplayer.weaponType);
+            GameController.Instance.SetScoreSaved(dtplayer.score);
+        }
+    }
     void Update()
     {
         if (!isDie&&isPlay)
@@ -49,7 +67,7 @@ public class Player : Character
                 MovePlayer();
             }
             
-            ChangeAnim(RUN);
+            ChangeAnim( Contains.RUN);
             time = timer;
             //Debug.Log(1);
             _weaponFaketf.gameObject.SetActive(true);
@@ -59,7 +77,7 @@ public class Player : Character
         {
             if (!isAttack ||CurrentPos == Vector3.zero)
             {
-                ChangeAnim(IDLE);
+                ChangeAnim(Contains.IDLE);
                 _weaponFaketf.gameObject.SetActive(true);
                 time += Time.deltaTime;
             }
@@ -84,11 +102,24 @@ public class Player : Character
     }
     public override void OnInit()
     {
+        
         base.OnInit();
-        //ChangeWeapon(weaponData1.GetWeapon(WeaponType.hammer));
-        ChangeAnim(IDLE);
+        _weaponFaketf.gameObject.SetActive(true);
+        transform.position = startpos;
+        transform.rotation = currentRotation;
+        ChangeAnim(Contains.IDLE);
         score = 0;
         _text.text = score.ToString();
+    }
+    public override void Die()
+    {
+        base.Die();
+        Invoke(nameof(LoseDirectly), 1.5f);
+        
+    }
+    void LoseDirectly()
+    {
+        GameController.Instance.GameLose();
     }
     private bool CheckGround()
     {
@@ -105,13 +136,17 @@ public class Player : Character
     {
         _canvasRangeAttack.gameObject.SetActive(true);
     }
+    void DeActiveCanvasRangeAttack()
+    {
+        _canvasRangeAttack.gameObject.SetActive(true);
+    }
     void ChangeAnimToDANCE()
     {
-        ChangeAnim(DANCE);
+        ChangeAnim( Contains.DANCE);
     }
     void ChangeAnimWhenExitSKinToIDLE()
     {
-        ChangeAnim(IDLE);
+        ChangeAnim(Contains.IDLE);
     }
     void Checkdressing()
     {
@@ -134,6 +169,36 @@ public class Player : Character
         }
 
     }
+
+    public WeaponType GetWeaponTypePlayer()
+    {
+        return weaponType;
+    }
+    
+    public HatType GetHatTypePlayer()
+    {
+
+    return hatType; 
+    }
+
+    public PantType GetPantTypePlayer()
+    {
+        return pantType;
+    }
+
+    public ShieldType GetShieldTypePlayer()
+    {
+        return shieldType;
+    }
+    protected override void Selected()
+    {
+        base.Selected();
+       
+    }
+    //void SaveUserDataWhenQuitGame()
+    //{
+    //    DataManager.Instance.SaveDataPlayer(hatType, pantType, shieldType, weaponType, GameController.Instance.GetScore());
+    //}
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -149,7 +214,11 @@ public class Player : Character
         CanvasBuySkin.actionSelectHatStart += ChangeHat;
         CanvasBuySkin.actionSelectPantStart += ChangePant;
         CanvasBuySkin.actionSelectShieldStart += ChangShield;
-        
+
+
+        GameController.OnInitAllAction += OnInit;
+        GameController.OnInitAllAction += DeActiveAttack;
+        //GameController.QuitGameEvent += SaveUserDataWhenQuitGame;
 
         //action xem skin co duoc select hay không
         CanvasBuySkin.actionSelectSkin += Selected;
@@ -162,8 +231,11 @@ public class Player : Character
         CanvasGamePlay.actionPlayGame -= ActiveCanvasRangeAttack;
         CanvasBuyWeapon.selectWeaponAction -= ChangeWeapon;
         CanvasGamePlay.actionChangeSkinCameraFlow -= ChangeAnimToDANCE;
-        CanvasBuySkin.actionChangeExitSkinCameraFlow -= ChangeAnimWhenExitSKinToIDLE;
+        CanvasBuySkin.actionChangeExitSkinCameraFlow -= ChangeAnimWhenExitSKinToIDLE; 
 
+        GameController.OnInitAllAction -= OnInit;
+        GameController.OnInitAllAction -= DeActiveAttack;
+        //GameController.QuitGameEvent -= SaveUserDataWhenQuitGame;
 
         ItemUIHat.ChangeHatAction -= ChangeHat;
         ItemUIPant.ChangePantAction -= ChangePant;

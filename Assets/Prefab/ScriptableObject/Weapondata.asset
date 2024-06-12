@@ -18,18 +18,22 @@ MonoBehaviour:
     price: 0
     iconWeapon: {fileID: 21300000, guid: 2dbdf917bda18854c9feb89adc0a75f7, type: 3}
     weaponFake: {fileID: 982164071880922234, guid: 5f3c6b7f886ec304cb7f506d1fcbc9ce, type: 3}
+    typeState: 1
   - prefabWeapon: {fileID: 7049022414620566652, guid: 56d031ff20883814dbd1ec3aabf40ba9, type: 3}
     wpType: 1
     price: 100
     iconWeapon: {fileID: 21300000, guid: 82541a9d027d1ef459d4baf465a125ce, type: 3}
     weaponFake: {fileID: 3085885927702779197, guid: 41869ec4be39c964095711629253b068, type: 3}
+    typeState: 0
   - prefabWeapon: {fileID: -2392681614255964828, guid: 3f539a86cd0f8b24195da53525fd42b3, type: 3}
     wpType: 2
-    price: 100
+    price: 200
     iconWeapon: {fileID: 21300000, guid: dd47ffa33ce48924eb157693923298bb, type: 3}
     weaponFake: {fileID: 231345013688667455, guid: 6a05fce0e15fffd43ad3f1fccc117c28, type: 3}
+    typeState: 0
   - prefabWeapon: {fileID: 3672372635331995745, guid: bfbbe46f602a28a4383d84987451d35c, type: 3}
     wpType: 3
-    price: 200
+    price: 300
     iconWeapon: {fileID: 21300000, guid: 850560a3d5d05414985431b7fe969284, type: 3}
     weaponFake: {fileID: 2349852600515060912, guid: 41874383e322a2f47bd4d1239d74ad66, type: 3}
+    typeState: 0

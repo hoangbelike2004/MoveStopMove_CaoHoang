@@ -1894,6 +1894,7 @@ GameObject:
   - component: {fileID: 5692282892024098310}
   - component: {fileID: 4943039975460193608}
   - component: {fileID: 8503922546734386344}
+  - component: {fileID: 2350034964787846513}
   m_Layer: 5
   m_Name: CanvasGamePlay
   m_TagString: Untagged
@@ -2016,6 +2017,29 @@ MonoBehaviour:
   vibrateobj: {fileID: 2824635897945601625}
   scoreobj: {fileID: 7251722747248578170}
   _scoreOutSlide: {fileID: 7744735584939935600}
+  anim: {fileID: 2350034964787846513}
+  timeRunanimClose: 0.15
+--- !u!95 &2350034964787846513
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5908661795946967037}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f2be47c988d4c5e42931238604950ef2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6109613469029993512
 GameObject:
   m_ObjectHideFlags: 0

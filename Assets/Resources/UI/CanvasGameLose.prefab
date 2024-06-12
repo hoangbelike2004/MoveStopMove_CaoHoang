@@ -662,6 +662,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isdestroyOnClose: 0
+  reloadbtn: {fileID: 4534851033181997548}
+  homebtn: {fileID: 5423648858663887577}
+  _score: {fileID: 7647440486239061247}
+  _top: {fileID: 3351497548192904226}
 --- !u!1 &7394224901068286313
 GameObject:
   m_ObjectHideFlags: 0

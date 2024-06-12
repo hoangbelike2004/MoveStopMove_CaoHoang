@@ -13,7 +13,6 @@ public class Character : MonoBehaviour
     [SerializeField] protected float speed,valueSize,valuesizetmp,rangeAttack = 7f;
     [SerializeField] protected int score;
     protected bool isDie,isSelectEnemy,isAugment;
-    public const string IDLE = "Idle", ATTACK = "Attack",DIE = "Dead",RUN = "Run", DANCE_WIN = "DanceWin",DANCE = "Dance";
     private string currentAnim;
     [SerializeField] private Animator anim;
     //[SerializeField] private SphereCollider sphereCollider;
@@ -34,7 +33,10 @@ public class Character : MonoBehaviour
     [SerializeField] protected HatData hatData;
     [SerializeField] protected ShieldData shieldData;
 
-
+    [SerializeField] protected WeaponType weaponType;
+    [SerializeField] protected HatType hatType;
+    [SerializeField] protected PantType pantType;
+    [SerializeField] protected ShieldType shieldType;
 
     [SerializeField] protected TextMeshProUGUI _text;
     public bool isAttack,isPlay,isSelect,isHatsNull,isShieldNull,isSuitNull;
@@ -47,9 +49,10 @@ public class Character : MonoBehaviour
 
     public List<GameObject> hats,shields,suits;
     
-    void Start()
+     protected virtual void Start()
     {
         OnInit();
+        CheckScoreForUpSize(score);
     }
     //protected virtual void Move()
     //{
@@ -87,6 +90,7 @@ public class Character : MonoBehaviour
     protected virtual void ChangeWeapon(WeaponType newwp)
     {
         weaponPrefab = weaponData1.GetWeapon(newwp);
+        weaponType = newwp;
         GameObject _weaponFake = weaponData1.GetWeaponGOB(newwp);
         Destroy(_weaponFaketf.GetChild(0).gameObject);
         Instantiate(_weaponFake, _weaponFaketf);
@@ -96,33 +100,38 @@ public class Character : MonoBehaviour
 
     protected virtual void ChangeHat(HatType newType)
     {
+        hatType = newType;
         if(_hairTf.childCount != 0)
         {
             _hairTf.GetChild(0).gameObject.SetActive(false);
-            
-
         }
         else
         {
             isHatsNull = true;
         }
-        GameObject hat = Instantiate(hatData.GetHat(newType),_hairTf);
-        if(hats.Count >= 2)
+        if (hatType != HatType.nonehat)
         {
-            hats[hats.Count - 1].gameObject.SetActive(false);//deactive thang sau thang duoc them vao la(hat)
+            GameObject hat = Instantiate(hatData.GetHat(hatType), _hairTf);
+
+
+            if (hats.Count >= 2)
+            {
+                hats[hats.Count - 1].gameObject.SetActive(false);//deactive thang sau thang duoc them vao la(hat)
+            }
+
+            hats.Add(hat);
+            hat.transform.SetParent(_hairTf);
         }
-        
-        hats.Add(hat);
-        hat.transform.SetParent(_hairTf);
         
     }
     protected void NotSelected()
     {
         _pants.material = savepantMaterial;//khi ko chon thi tra ve cai material ban dau
-
+        pantType = PantType.nonePant;
         //SAVEN'T HAT
         if (isHatsNull)//nguoi choi ko co hat tren dau khi chua vao shop
         {
+            hatType = HatType.nonehat;
             for (int i = 0; i < hats.Count; i++)
             {
                 Destroy(hats[i].gameObject);
@@ -143,6 +152,7 @@ public class Character : MonoBehaviour
         //SAVEN'T SHIELD
         if (isShieldNull)//nguoi choi ko co hat tren dau khi chua vao shop
         {
+            shieldType = ShieldType.noneShield;
             for (int i = 0; i < shields.Count; i++)
             {
                 Destroy(shields[i].gameObject);
@@ -159,7 +169,7 @@ public class Character : MonoBehaviour
             }
         }
     }
-    protected void Selected()
+    protected virtual void Selected()
     {
         isSuitNull = false;
         savepantMaterial = _pants.material;
@@ -182,20 +192,22 @@ public class Character : MonoBehaviour
     }
     protected virtual void ChangShield(ShieldType newType)
     {
+        shieldType = newType;
         if (_khientf.childCount != 0)
         {
-            //hats.Add(_hairTf.GetChild(0).gameObject);
-            //Destroy(_hairTf.GetChild(0).gameObject);
-          // isShieldNull = false;
             _khientf.GetChild(0).gameObject.SetActive(false);
         }
-        GameObject khien = Instantiate(shieldData.GetShield(newType),_khientf);
-        if (shields.Count >= 2)
+        if(shieldType != ShieldType.noneShield)
         {
-            shields[shields.Count - 1].gameObject.SetActive(false);//deactive thang sau thang duoc them vao la(Shield)
+            GameObject khien = Instantiate(shieldData.GetShield(newType), _khientf);
+            if (shields.Count >= 2)
+            {
+                shields[shields.Count - 1].gameObject.SetActive(false);//deactive thang sau thang duoc them vao la(Shield)
+            }
+            shields.Add(khien);
+            khien.transform.SetParent(_khientf);
         }
-        shields.Add(khien);
-        khien.transform.SetParent(_khientf);
+        
     }
     protected virtual void ChangSuite(SuitType newType)
     {
@@ -204,11 +216,16 @@ public class Character : MonoBehaviour
 
     protected virtual void ChangePant(PantType newType)
     {
+        pantType = newType;
         if(savepantMaterial == null)
         {
             savepantMaterial = _pants.material;
         }
-        _pants.material = pantData.GetPants(newType);
+        if(pantType != PantType.nonePant)
+        {
+            _pants.material = pantData.GetPants(newType);
+        }
+        
     }
 
     protected virtual void AttackRang()
@@ -223,6 +240,7 @@ public class Character : MonoBehaviour
         valuesizetmp += valueSize;
         UpSizeEvent?.Invoke();//tang chieu cao cho floating text
         
+        
     }
     public void SetScore(int score)// dung de tang score khi kill bot
     {
@@ -236,58 +254,55 @@ public class Character : MonoBehaviour
     }
     protected void CheckScoreForUpSize(int score)// dung de tang size khi dat moc cua score
     {
-        //if(score < 2)
-        //{
-        //    return;
-        //}
-        if(score >= 2 && isUpSize[0])
+        
+        if (score >= 2 && isUpSize[0])
         {
             isUpSize[0] = false;
             UpSize();
         }
-         if(score >= 6 && isUpSize[1])
+        else if(score >= 6 && isUpSize[1])
         {
             isUpSize[1] = false;
             UpSize();
         }
-         if (score >= 14 && isUpSize[2])
+        else if (score >= 14 && isUpSize[2])
         {
             isUpSize[2] = false;
             UpSize();
         }
-         if (score >= 30 && isUpSize[3])
+        else if (score >= 30 && isUpSize[3])
         {
             isUpSize[3] = false;
             UpSize();
         }
-         if (score >= 64 && isUpSize[4])
+        else if (score >= 64 && isUpSize[4])
         {
             isUpSize[4] = false;
             UpSize();
         }
     }
 
-    protected void AddScore(Character chr)
+    public void AddScore()
     {
-        if (chr.score < 2)
+        if (score < 2)
         {
-            chr.SetScore(1);
+            SetScore(1);
         }
-        else if (chr.score < 6)
+        else if (score < 6)
         {
-            chr.SetScore(2);
+            SetScore(2);
         }
-        else if (chr.score < 14)
+        else if (score < 14)
         {
-            chr.SetScore(3);
+            SetScore(3);
         }
-        else if (chr.score < 30)
+        else if (score < 30)
         {
-            chr.SetScore(4);
+            SetScore(4);
         }
-        else if (chr.score < 64)
+        else if (score < 64)
         {
-            chr.SetScore(5);
+            SetScore(5);
         }
     } 
     
@@ -308,7 +323,7 @@ public class Character : MonoBehaviour
     {
 
         CurrentPos = Vector3.zero;
-        ChangeAnim(ATTACK);
+        ChangeAnim(Contains.ATTACK);
         
 
     }
@@ -326,14 +341,15 @@ public class Character : MonoBehaviour
    
     public virtual void Die()
     {
+        CurrentPos = Vector3.zero;
         isDie = true;
         capsuleCollider.enabled = false;
-        ChangeAnim(DIE);
+        ChangeAnim(Contains.DIE);
         
     }
     protected virtual void Win()
     {
-        ChangeAnim(DANCE_WIN);
+        ChangeAnim(Contains.DANCE_WIN);
     }
     public int Compare(Collider x, Collider y)//sap xep mang hitcollider theo distance uu tien tu gan den xa
     {
@@ -391,21 +407,31 @@ public class Character : MonoBehaviour
         }
     }
 
-    protected void PlayGame()
+    protected virtual void PlayGame()
     {
+        
         isPlay = true;
+        isDie = false;
+    }
+    protected virtual void NotPlayGame()
+    {
+        isPlay = false;
+        CurrentPos = Vector3.zero;
+
     }
     protected virtual void OnEnable()
     {
-        Weapon.ActionAddScore += AddScore;
+        //Weapon.ActionAddScore += AddScore;
         CanvasGamePlay.actionPlayGame += PlayGame;
+        GameController.OnInitAllAction += NotPlayGame;
         
     }
     protected virtual void OnDisable()
     {
-        Weapon.ActionAddScore -= AddScore;
+        //Weapon.ActionAddScore -= AddScore;
         CanvasGamePlay.actionPlayGame -= PlayGame;
-        
+        GameController.OnInitAllAction -= NotPlayGame;
+
     }
 
 

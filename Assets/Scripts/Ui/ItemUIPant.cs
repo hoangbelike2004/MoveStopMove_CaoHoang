@@ -18,6 +18,10 @@ public class ItemUIPant : MonoBehaviour
     private void Start()
     {
        selectButton.onClick.AddListener(SelectPant);
+        if (DataManager.Instance.GetDataSkin() != null)
+        {
+            PantItem.typeState = (TypeState)DataManager.Instance.GetDataSkin().pantstates[(int)PantItem.pantType];
+        }
     }
 
     public void SetDataPant(PantItem pantitem)

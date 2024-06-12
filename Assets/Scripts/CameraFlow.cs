@@ -14,9 +14,11 @@ public class CameraFlow : MonoBehaviour
     float valuesize;
     IEnumerator Start()
     {
-        OnInit();
         rotationStart = transform.rotation;
-
+        tfstart = transform.position;
+        OnInit();
+        _camera = Camera.main;
+        
         while (true)
         {
             if (_isChangeSkin)//khi an vao shop skin
@@ -42,8 +44,9 @@ public class CameraFlow : MonoBehaviour
     }
    void OnInit()
     {
-        _camera = Camera.main;
-        tfstart = transform.position;
+        valuesize = 0.1f;
+        transform.rotation = rotationStart;
+        transform.position = tfstart;
         _isPlaying = false;
         _isChangeSkin = false;
     }
@@ -88,11 +91,15 @@ public class CameraFlow : MonoBehaviour
         CanvasGamePlay.actionPlayGame += RunWhenClickPlay;
         CanvasGamePlay.actionChangeSkinCameraFlow += ChangeSkin;
         CanvasBuySkin.actionChangeExitSkinCameraFlow += ExitChangeSkin;
+
+        GameController.ReLoadHome += OnInit;
     }
     private void OnDisable()
     {
         CanvasGamePlay.actionPlayGame -= RunWhenClickPlay;
         CanvasGamePlay.actionChangeSkinCameraFlow -= ChangeSkin;
         CanvasBuySkin.actionChangeExitSkinCameraFlow -= ExitChangeSkin;
+
+        GameController.ReLoadHome -= OnInit;
     }
 }

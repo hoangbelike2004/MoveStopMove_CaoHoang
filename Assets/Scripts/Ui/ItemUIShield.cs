@@ -18,7 +18,10 @@ public class ItemUIShield : MonoBehaviour
     private void Start()
     {
         buttonthis.onClick.AddListener(SelectShield);
-
+        if (DataManager.Instance.GetDataSkin() != null)
+        {
+            ShieldItem.typeState = (TypeState)DataManager.Instance.GetDataSkin().shieldstates[(int)ShieldItem.shieldtype];
+        }
     }
 
     public void SetDataShield(ShieldItem shieldItem)

@@ -1023,8 +1023,9 @@ MonoBehaviour:
   nextRightButton: {fileID: 5223292310998663226}
   nextLeftButton: {fileID: 5922208842905316930}
   selectButton: {fileID: 7470725512601494036}
-  _textnameWeapon: {fileID: 0}
-  _textPriceWeapon: {fileID: 0}
+  buyButton: {fileID: 1699180715284875140}
+  _textnameWeapon: {fileID: 6926927184435510445}
+  _textPriceWeapon: {fileID: 9186318350660785361}
   _IconWeapon: {fileID: 7725701294933598032}
   weaponData: {fileID: 11400000, guid: 10ef2edbbbf6e754fb546296d7756a5e, type: 2}
   weaponNR: 0
@@ -1377,7 +1378,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6461107960578920586
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1499,7 +1500,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3312017021338767654
 RectTransform:
   m_ObjectHideFlags: 0

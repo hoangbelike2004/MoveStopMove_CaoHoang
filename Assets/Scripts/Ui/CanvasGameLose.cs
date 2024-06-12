@@ -11,6 +11,7 @@ public class CanvasGameLose : UiCanvas
     [SerializeField] TextMeshProUGUI _score;
     [SerializeField] TextMeshProUGUI _top;
 
+
     private void Start()
     {
         homebtn.onClick.AddListener(ClickHomeBtn);
@@ -20,6 +21,9 @@ public class CanvasGameLose : UiCanvas
 
     void ClickHomeBtn()
     {
+        GameController.Instance.OnInitAll();
+        GameController.Instance.Home();
+        UiManager.Instance.CloseUI<CanvasSetting>(0f);
         UiManager.Instance.CloseUI<CanvasGameLose>(0f);
         UiManager.Instance.OpenUI<CanvasGamePlay>();
     }

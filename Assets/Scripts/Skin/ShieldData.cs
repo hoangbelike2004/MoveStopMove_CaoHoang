@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum ShieldType
 {
-    khienden,khiendo
+    khienden,khiendo,noneShield
 }
 [CreateAssetMenu(fileName = "Shield")]
 public class ShieldData : ScriptableObject

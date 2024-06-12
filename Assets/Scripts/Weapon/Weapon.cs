@@ -8,9 +8,10 @@ public class Weapon : WeaponCharacter
 {
     //[SerializeField] private Character character;
     [SerializeField] Rigidbody rb;
+    public WeaponType type;
     Character target;
     Character current;
-    public static UnityAction<Character> ActionAddScore;
+    public static UnityAction<Character,Character> ActionAddScore;
     IEnumerator Start()
     {
         Character newCharacter = Cache.GetCharacterInCache(characterParent);
@@ -28,6 +29,8 @@ public class Weapon : WeaponCharacter
         }
        
     }
+
+
     private void OnTriggerEnter(Collider other)
     {
        if(other.GetComponent<Character>() != characterParent&&other.GetComponent<Character>()!= null)
@@ -36,7 +39,8 @@ public class Weapon : WeaponCharacter
             current = Cache.GetCharacterInCache(characterParent);
             gameObject.SetActive(false);
             target.Die();
-              ActionAddScore?.Invoke(current);
+            // ActionAddScore?.Invoke(current,target);
+            current.AddScore();
 
             
         }

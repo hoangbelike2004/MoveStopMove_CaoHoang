@@ -12,7 +12,6 @@ public class Bot : Character
     private IState currentState;
     public static UnityAction testaction;
 
-
     private void Update()
     {
 
@@ -56,41 +55,44 @@ public class Bot : Character
         _agent.speed = speed;
         _agent.enabled = true;
         score = Random.Range(0, 5);
-        isDie = false;
-        
         CurrentPos = Vector3.zero;
         _text.text = score.ToString();
-        CheckScoreForUpSize(score);
-
-
-
+        _selectAttackOfPlayer.gameObject.SetActive(false);
         int tmp = Random.Range(0,weaponData1.weapons.Count);
         ChangeWeapon((WeaponType)tmp);
-        _selectAttackOfPlayer.gameObject.SetActive(false);
         ChangeState(new PartrolState());
         int indexhat = Random.Range(0, hatData.hats.Count);
         ChangeHat((HatType)indexhat);
         int indexPant = Random.Range(0,pantData.pants.Count);
         ChangePant((PantType)indexPant);
     }
+    protected override void NotPlayGame()
+    {
+        base.NotPlayGame();
+        isDie = false;
+        ChangeAnim(Contains.IDLE);
+    }
+    protected override void PlayGame()
+    {
+        base.PlayGame();
+        ChangeState(new PartrolState());
+    }
     public override void Die()
     {
         base.Die();
         
-        _agent.enabled = false;
-        isPlay = true;
-       
     }
+
     public void ChangeAnimBot()
     {
         Vector3 veloc = _agent.velocity;
         bool isMoving = veloc.magnitude != 0;
         if(isMoving)
         {
-            ChangeAnim(RUN);
+            ChangeAnim(Contains.RUN);
         }else if (!isMoving&&!isAttack)
         {
-            ChangeAnim(IDLE);
+            ChangeAnim(Contains.IDLE);
         }
         
         if (!isAttack)

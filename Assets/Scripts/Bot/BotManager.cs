@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BotManager : MonoBehaviour
+public class BotManager : Singleton<BotManager>
 {
     [SerializeField] List<Bot> bots;
     [SerializeField] int valueBotMax,bottmp = 0;
@@ -15,19 +15,24 @@ public class BotManager : MonoBehaviour
      IEnumerator Start()
     {
         StartCoroutine(InstantiateBot());
+        bottmp = valueBotMax;
         while (true)
         {
             for(int i = 0; i < bots.Count; i++)
             {
-                if(bots[i].gameObject.activeSelf == false && bottmp < valueBotMax)
+                if(bots[i].gameObject.activeSelf == false && valueBotMax >=0)
                 {
                     yield return new WaitForSeconds(secondsBotHs);
                     float posx = Random.Range(-locationappearsX, locationappearsX);
                     float posz = Random.Range(-locationappearsZ, locationappearsZ);
                     Vector3 newpos = new Vector3(posx, 0, posz);
-                    bots[i].gameObject.SetActive(true);
-                    bots[i].transform.position = newpos;
-                    bots[i].OnInit();
+                    if((newpos.x > 7 || newpos.x < -7)&& (newpos.z > 2 || newpos.z < -12))
+                    {
+                        bots[i].gameObject.SetActive(true);
+                        bots[i].transform.position = newpos;
+                        bots[i].OnInit();
+                    }
+                    
                 }  
             }
             isWin = true;
@@ -41,9 +46,41 @@ public class BotManager : MonoBehaviour
             }
             if (isWin)
             {
-                WinGameEvent.Invoke();
+                GameController.Instance.GameWin();
+                isWin = false;
             }
             yield return null;
+        }
+    }
+    void OnInit()
+    {
+        valueBotMax = bottmp;
+        isWin = false;
+        foreach (Bot bot in bots)
+        {
+            if (bot.gameObject.activeSelf == true)
+            {
+                bot.gameObject.SetActive(false);
+
+            }
+        }
+        foreach (Bot bot in bots)
+        {
+            if (bot.gameObject.activeSelf == false)
+            {
+                
+                float posx = Random.Range(-locationappearsX, locationappearsX);
+                float posz = Random.Range(-locationappearsZ, locationappearsZ);
+                Vector3 newpos = new Vector3(posx, 0, posz);
+                if ((newpos.x > 7 || newpos.x < -7) && (newpos.z > 2 || newpos.z < -12))
+                {
+                    bot.gameObject.SetActive(true);
+                    bot.transform.position = newpos;
+                }
+                //bot.OnInit();
+                //bot.SetIsDie(true);
+
+            }
         }
     }
 
@@ -56,20 +93,23 @@ public class BotManager : MonoBehaviour
             Vector3 newpos = new Vector3(posx, 0, posz);
             Bot bot = Instantiate(botPrefab, newpos, Quaternion.identity);
             bots[i] = bot;
+
         }
         yield return null;
     }
     void updatebot()
     {
-        bottmp++;
+        valueBotMax--;
     }
     private void OnEnable()
     {
         Bot.testaction += updatebot;
+        GameController.OnInitAllAction += OnInit;
     }
     private void OnDisable()
     {
         Bot.testaction -= updatebot;
+        GameController.OnInitAllAction -= OnInit;
     }
 
 }

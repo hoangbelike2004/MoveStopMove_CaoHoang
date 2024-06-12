@@ -12,6 +12,11 @@ public class WeaponData1 : ScriptableObject
 {
     public List<WeaponItem> weapons;
 
+
+    public WeaponType GetTypeWeapon(int a)
+    {
+        return weapons[a].wpType;
+    }
     public Weapon GetWeapon(WeaponType type)
     {
         return weapons[(int)type].prefabWeapon;
@@ -28,6 +33,10 @@ public class WeaponData1 : ScriptableObject
     public TypeState GetTypeState(WeaponType type)
     {
         return weapons[((int)type)].typeState;
+    }
+    public int GetPriceWeapon(WeaponType type)
+    {
+        return weapons[((int)type)].price;
     }
 
 }

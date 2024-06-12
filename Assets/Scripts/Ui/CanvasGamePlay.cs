@@ -18,6 +18,8 @@ public class CanvasGamePlay : UiCanvas
     [SerializeField] GameObject adsobj,soundobj,vibrateobj,scoreobj;
     [SerializeField] TextMeshProUGUI _scoreOutSlide;
 
+    [SerializeField] Animator anim;
+    [SerializeField] float timeRunanimClose;
 
     public static UnityAction actionPlayGame;
     public static UnityAction actionChangeSkinCameraFlow;
@@ -36,7 +38,7 @@ public class CanvasGamePlay : UiCanvas
 
     private void PlayGame()
     {
-        
+        anim.SetTrigger(Contains.CLOSE_GAME_PLAY);
         UiManager.Instance.CloseUI<CanvasGamePlay>(.3f);
         UiManager.Instance.OpenUI<CanvasSetting>();
         actionPlayGame?.Invoke();
@@ -77,16 +79,31 @@ public class CanvasGamePlay : UiCanvas
     }
     private void ChangeWeaponButton()
     {
-        UiManager.Instance.OpenUI<CanvasBuyWeapon>();
+        anim.SetTrigger(Contains.CLOSE_GAME_PLAY);
+        Invoke(nameof(OpenChangeWeapon), timeRunanimClose);
     }
 
     private void ChangeSkinButton()
     {
-        UiManager.Instance.OpenUI<CanvasBuySkin>();
-        actionChangeSkinCameraFlow.Invoke();//dung chung action de kiem tra xem nguoi choi cs dang m?c gi khi vao shop skin khong 
+        anim.SetTrigger(Contains.CLOSE_GAME_PLAY);
+        Invoke(nameof(OpenChangeSkin), timeRunanimClose);
+        //dung chung action de kiem tra xem nguoi choi cs dang m?c gi khi vao shop skin khong 
         //action nay con de khi mo sho len thi se focus vao cai item mu dau tien
         //va khi an vao shop skin thi camera se thay doi
-        UiManager.Instance.CloseUI<CanvasGamePlay>(0f);
+        
+    }
+    void OpenAnimSkin()
+    {
+        anim.SetTrigger(Contains.OPEN_GAME_PLAY);
+    }
+    void OpenChangeSkin()
+    {
+        UiManager.Instance.OpenUI<CanvasBuySkin>();
+        actionChangeSkinCameraFlow.Invoke();
+    }
+    void OpenChangeWeapon()
+    {
+        UiManager.Instance.OpenUI<CanvasBuyWeapon>();
     }
     void ScoreText(int score)
     {
@@ -95,10 +112,14 @@ public class CanvasGamePlay : UiCanvas
     private void OnEnable()
     {
         GameController.updateTextScoreAction += ScoreText;
+        CanvasBuySkin.actionOpenAnimToSkinfromPlay += OpenAnimSkin;
+        CanvasBuyWeapon.actionOpenAnimToWeaponfromPlay += OpenAnimSkin;
     }
 
     private void OnDisable()
     {
         GameController.updateTextScoreAction -= ScoreText;
+        CanvasBuySkin.actionOpenAnimToSkinfromPlay -= OpenAnimSkin;
+        CanvasBuyWeapon.actionOpenAnimToWeaponfromPlay -= OpenAnimSkin;
     }
 }

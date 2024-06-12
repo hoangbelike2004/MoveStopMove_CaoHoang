@@ -51,10 +51,13 @@ public class CanvasBuySkin : UiCanvas
 
     Color colorCurrent;
 
+    public List<int> listHat,listPant,listShield;
+
     //Aciton
     public static UnityAction actionChangeExitSkinCameraFlow;
     public static UnityAction actionSelectSkin;
     public static UnityAction actionNotSelectSkin;
+    public static UnityAction actionOpenAnimToSkinfromPlay;
     public static UnityAction<HatType> actionSelectHatStart;
     public static UnityAction<ShieldType> actionSelectShieldStart;
     public static UnityAction<PantType> actionSelectPantStart;
@@ -65,6 +68,8 @@ public class CanvasBuySkin : UiCanvas
     public ShieldItem _shieldItem;
     public PantItem _pantitem;
     public SuitdItem _suitditem;
+
+ 
     private void Awake()
     {
         colorCurrent = IconButton[0].color;
@@ -72,6 +77,10 @@ public class CanvasBuySkin : UiCanvas
     }
     private void Start()
     {
+        listHat = new List<int>();
+        listPant = new List<int>();
+        listShield = new List<int>();
+
         hatButton.onClick.AddListener(InstantiateHat);
         pantButton.onClick.AddListener(InstantiatePant);
         shieldButton.onClick.AddListener(InstantiateShield);
@@ -116,6 +125,7 @@ public class CanvasBuySkin : UiCanvas
     }
     void InstantiateHat()
     {
+        Debug.Log(1);
         ActiveScrollObjectUsed(TypeScroll.scrollHat);
         ChangeColorObjectUsed(TypeScroll.scrollHat);
         for (int i = 0; i < hatData.hats.Count; i++)
@@ -226,9 +236,9 @@ public class CanvasBuySkin : UiCanvas
         ChangeColorObjectUsed(TypeScroll.scrollHat);
         UiManager.Instance.CloseUI<CanvasBuySkin>(0f);
         actionChangeExitSkinCameraFlow.Invoke();
-        UiManager.Instance.OpenUI<CanvasGamePlay>();
-        GameController.Instance.UpdateScore();
+        actionOpenAnimToSkinfromPlay.Invoke();
         actionNotSelectSkin.Invoke();
+
     }
     public void SelectSkin()//chon skin
     {
@@ -236,9 +246,36 @@ public class CanvasBuySkin : UiCanvas
         ChangeColorObjectUsed(TypeScroll.scrollHat);
         UiManager.Instance.CloseUI<CanvasBuySkin>(0f);
         actionChangeExitSkinCameraFlow.Invoke();
-        UiManager.Instance.OpenUI<CanvasGamePlay>();
+        actionOpenAnimToSkinfromPlay.Invoke();
         actionSelectSkin.Invoke();
     }
+    void GetData()
+    {
+        for(int i = 0; i < hatData.hats.Count; i++)
+        {
+            int a =(int)hatData.hats[i].typeState;
+            listHat.Add(a);
+        }
+        for (int i = 0; i < pantData.pants.Count; i++)
+        {
+            int a = (int)pantData.pants[i].typeState;
+            listPant.Add(a);
+        }
+        for (int i = 0; i < shieldData.shields.Count; i++)
+        {
+            int a = (int)shieldData.shields[i].typeState;
+            listShield.Add(a);
+        }
+    }
+
+    void ReleaseList(List<int> list)
+    {
+        if(list.Count  == 0)
+        {
+            list.Clear();
+        }
+    }
+   
     public void BuySkin()
     {
         if(_hatitem != null)
@@ -246,6 +283,7 @@ public class CanvasBuySkin : UiCanvas
             GameController.Instance.SetScore(_hatitem.price);
             _hatitem.typeState = TypeState.haveowned;
             SetBuySkin(_hatitem.typeState);
+
         }
         else if(_pantitem != null)
         {
@@ -265,8 +303,9 @@ public class CanvasBuySkin : UiCanvas
             _suitditem.typeState = TypeState.haveowned;
             SetBuySkin(_suitditem.typeState);
         }
-        
-
+        GetData();//lay data tu shop skin
+        DataManager.Instance.SaveDataSkin(listHat,listPant,listShield);
+        GameController.Instance.UpdateScore();
     }
 
 

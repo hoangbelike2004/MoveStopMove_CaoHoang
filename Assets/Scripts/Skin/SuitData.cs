@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum SuitType
 {
-    suit1,suit2
+    suit1,suit2,noneSuit
 }
 
 [CreateAssetMenu(menuName = "SuitData")]

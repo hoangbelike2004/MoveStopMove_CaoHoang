@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum PantType
 {
-    pantBatman, pantChambi, pantComy, pantDabao, pantOnion,pantPokemon, pantRainbow
+    pantBatman, pantChambi, pantComy, pantDabao, pantOnion,pantPokemon, pantRainbow,nonePant
 }
 [CreateAssetMenu(fileName = "Pant")]
 public class PantData : ScriptableObject
