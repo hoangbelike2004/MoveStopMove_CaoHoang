@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Weapon
   - Bot
+  - Missile
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Bot
   - Plane
   - Weapon
-  - 
+  - Barrier
   - 
   - 
   - 

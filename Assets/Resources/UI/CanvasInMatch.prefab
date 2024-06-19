@@ -118,7 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isdestroyOnClose: 0
   settingButton: {fileID: 5348610056602824022}
-  Alives: {fileID: 74484293153865744}
+  Alivestxt: {fileID: 74484293153865744}
 --- !u!1 &488522204765594655
 GameObject:
   m_ObjectHideFlags: 0

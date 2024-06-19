@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fef1821759c76142a293387c9846b77, type: 3}
+  m_Name: Hat
+  m_EditorClassIdentifier: 
+  hats:
+  - hatprefab: {fileID: 4653634522274131480, guid: a2088b36e3c82d9449cf01726a985d7d, type: 3}
+    hattype: 0
+    price: 500
+    iconhat: {fileID: 21300000, guid: 2f8937590677b044b8619858abca9ecf, type: 3}
+    typeState: 1
+  - hatprefab: {fileID: 7940812813334809016, guid: 4359b4edefea7d446a2d6562cc67ee18, type: 3}
+    hattype: 1
+    price: 100
+    iconhat: {fileID: 21300000, guid: 7ecc7cd28cb66fb41ac2e56ca5e22d5c, type: 3}
+    typeState: 0
+  - hatprefab: {fileID: 8344359109943957246, guid: eb597a95a420afb409fb14a75a38dbf6, type: 3}
+    hattype: 2
+    price: 200
+    iconhat: {fileID: 21300000, guid: a50fa6b5fea3d264cbec440c2da1dbf8, type: 3}
+    typeState: 0
+  - hatprefab: {fileID: 3336976624917959417, guid: c116977ac8e6e0e42889ebcfa705f87a, type: 3}
+    hattype: 3
+    price: 300
+    iconhat: {fileID: 21300000, guid: 5dd6afb8b1bc7b947853e77fc8811be4, type: 3}
+    typeState: 0
+  - hatprefab: {fileID: 4916015212281843486, guid: dbe9f42add164c64fa7ef1d0b0335461, type: 3}
+    hattype: 4
+    price: 400
+    iconhat: {fileID: 21300000, guid: 76e934370403f35428e37cc379bed4c7, type: 3}
+    typeState: 0
+  - hatprefab: {fileID: 5026144868399492914, guid: a8ce4574495db724682ee49e654af1e8, type: 3}
+    hattype: 5
+    price: 500
+    iconhat: {fileID: 21300000, guid: 69fc10e773b5a814198a5883e168c2b7, type: 3}
+    typeState: 0
+  - hatprefab: {fileID: 2089266937216948180, guid: b613c9639610b4e42930e8fe0534b4a2, type: 3}
+    hattype: 6
+    price: 500
+    iconhat: {fileID: 21300000, guid: 694f596b7929bdb409ba3630631783d9, type: 3}
+    typeState: 0
