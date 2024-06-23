@@ -27,10 +27,10 @@ public class PoolAmount
 
 public enum PoolType_One
 {
-    Weapon_1 = 0,
-    Weapon_2 = 1,
-    Weapon_3 = 2,
-    Weapon_4 = 3,
-    Weapon_5 = 4,
+    Hammer = 0,
+    Candy_0 = 1,
+    Axe = 2,
+    Boomerang = 3,
+    Arrow = 4,
 
 }

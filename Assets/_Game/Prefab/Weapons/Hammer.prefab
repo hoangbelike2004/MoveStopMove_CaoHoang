@@ -120,9 +120,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cc8d5882580c9347baa016293bbbf97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 0
   speed: 10
   timeDeactiveWeapon: 0
   rb: {fileID: 1144779640000157265}
+  type: 0
 --- !u!54 &1144779640000157265
 Rigidbody:
   m_ObjectHideFlags: 0

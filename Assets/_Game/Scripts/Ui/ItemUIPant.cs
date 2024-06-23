@@ -18,9 +18,9 @@ public class ItemUIPant : MonoBehaviour
     private void Start()
     {
        selectButton.onClick.AddListener(SelectPant);
-        if (DataManager.Instance.GetDataSkin() != null)
+        if (MyClass<DataSkin>.GetDataKey(Contains.DATA_SKIN) != null)
         {
-            PantItem.typeState = (TypeState)DataManager.Instance.GetDataSkin().pantstates[(int)PantItem.pantType];
+            PantItem.typeState = (TypeState)MyClass<DataSkin>.GetDataKey(Contains.DATA_SKIN).pantstates[(int)PantItem.pantType];
         }
     }
 

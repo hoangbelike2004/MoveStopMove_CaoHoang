@@ -33,7 +33,7 @@ public class CanvasBuyWeapon : UiCanvas
         selectButton.onClick.AddListener(SelectWeapon);
         buyButton.onClick.AddListener(BuySkin);
 
-        MyClass<DataWeapon>.GetDataSkin(Contains.DATA_WEAPON);
+        MyClass<DataWeapon>.GetDataKey(Contains.DATA_WEAPON);
     }
 
     void ExitShop()
@@ -97,7 +97,7 @@ public class CanvasBuyWeapon : UiCanvas
         GameController.Instance.SetScore(a);
         GameController.Instance.UpdateScore();
         SaveDataWeapon();
-        DataManager.Instance.SaveDataWeapon(listWeapondata);
+        //DataManager.Instance.SaveDataWeapon(listWeapondata);
     }
     void SaveDataWeapon()
     {

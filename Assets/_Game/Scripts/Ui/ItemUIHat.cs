@@ -18,9 +18,9 @@ public class ItemUIHat : MonoBehaviour
     private void Start()
     {
         buttonThis.onClick.AddListener(SelectHat);
-        if(DataManager.Instance.GetDataSkin() != null)
+        if(MyClass<DataSkin>.GetDataKey(Contains.DATA_SKIN) != null)
         {
-            Hatitem.typeState = (TypeState)DataManager.Instance.GetDataSkin().hatstates[(int)Hatitem.hattype];
+            Hatitem.typeState = (TypeState)MyClass<DataSkin>.GetDataKey(Contains.DATA_SKIN).hatstates[(int)Hatitem.hattype];
         }
         
     }

@@ -8,6 +8,7 @@ public class PartrolState : IState
     float time, timer;
     public void OnEnter(Bot bot)
     {
+        bot.ChangeAnim(Contains.RUN);
         next_pos = bot.transform.position;
         time = 0;
         timer = Random.Range(3, 5);

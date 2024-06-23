@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class BotManager : Singleton<BotManager>
 {
     [SerializeField] List<Bot> bots;
-    [SerializeField] int valueBotMax,valueBotAlive,bottmp = 0;
+    [SerializeField] int valueBotMax,valueBotAlive,bottmp = 0,nextLevel;
     [SerializeField] float secondsBotHs;
     [SerializeField] Bot botPrefab;
     [SerializeField] float locationappearsX, locationappearsZ;// vi tri xuat hien cua bot
@@ -15,8 +15,17 @@ public class BotManager : Singleton<BotManager>
     public static UnityAction<int> CheckBotEvent;
     IEnumerator Start()
     {
-        bottmp = valueBotMax;
-        valueBotAlive = valueBotMax;
+        if (PlayerPrefs.HasKey(Contains.DATA_LEVELBOT))
+        {
+            bottmp = DataManager.Instance.GetDataBot(Contains.DATA_LEVELBOT);
+            valueBotAlive = DataManager.Instance.GetDataBot(Contains.DATA_LEVELBOT);
+        }
+        else
+        {
+            bottmp = valueBotMax;
+            valueBotAlive = valueBotMax;
+        }
+        
         StartCoroutine(InstantiateBot());
         while (true)
         {
@@ -36,22 +45,6 @@ public class BotManager : Singleton<BotManager>
                     
                 }  
             }
-            //isWin = true;
-            //foreach(Bot bot in bots)
-            //{
-            //    if(bot.gameObject.activeSelf == true)
-            //    {
-            //        isWin = false;
-            //        break;
-            //    }
-            //}
-            //if (isWin && valueBotMax == 0)
-            //{
-            //    AudioManager.Instance.PlaySound(AudioManager.Instance.acWin, 1);
-            //    WinGameEvent.Invoke();
-            //    Debug.Log("Win");
-            //    isWin = false;
-            //}
             yield return null;
         }
     }
@@ -119,6 +112,8 @@ public class BotManager : Singleton<BotManager>
         }
         if(valueBotAlive == 0)
         {
+            bottmp += nextLevel;
+            DataManager.Instance.SaveDataBot(bottmp);
             AudioManager.Instance.PlaySound(AudioManager.Instance.acWin, 1);
             WinGameEvent.Invoke();
             isWin = false;

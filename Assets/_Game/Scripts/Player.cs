@@ -28,20 +28,6 @@ public class Player : Character
             ChangeWeapon(dtplayer.weaponType);
             GameController.Instance.SetScoreSaved(dtplayer.score);
         }
-        //if(MyClass<DataWeapon>.GetDataSkin(Contains.DATA_WEAPON) != null)
-        //{
-        //    int tmp = 0;
-        //    DataWeapon dtwp = MyClass<DataWeapon>.GetDataSkin(Contains.DATA_WEAPON);
-        //    foreach(int value in dtwp.weapondataList)
-        //    {
-        //        tmp++;
-        //        if(value == 1)
-        //        {
-        //            break;
-        //        }
-        //    }
-        //    ChangeWeapon((WeaponType)tmp);
-        //}
     }
     void Update()
     {
@@ -136,7 +122,7 @@ public class Player : Character
     }
     private bool CheckGround()
     {
-        if(!Physics.Raycast(transform.position + Vector3.up * 2f, transform.forward * 1.5f + Vector3.down * 4f,planeLayer))
+        if(!Physics.Raycast(transform.position + Vector3.up * 2f, transform.forward * .5f + Vector3.down * 2f,planeLayer))
         {
             return false;
         }

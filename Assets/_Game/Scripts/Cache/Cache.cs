@@ -9,6 +9,7 @@ public static class Cache
     private static Dictionary<GameObject, Bot> cacheBot = new Dictionary<GameObject, Bot>();
     private static Dictionary<Character, Character> cacheCharacter = new Dictionary<Character, Character>();
     private static Dictionary<Weapon, Weapon> cacheWeapon = new Dictionary<Weapon, Weapon>();
+    private static Dictionary<Boomerang, Boomerang> cachewpBoom = new Dictionary<Boomerang, Boomerang>();
     public static Character GetCharacteOfColliderInCache(Collider collider)
     {
         if (!cacheCollider.ContainsKey(collider))
@@ -41,5 +42,13 @@ public static class Cache
             cacheWeapon.Add(gameObject, gameObject.GetComponent<Weapon>());
         }
         return cacheWeapon[gameObject];
+    }
+    public static Boomerang GetWeaponBoomerangInCache(Boomerang gameObject)
+    {
+        if (!cachewpBoom.ContainsKey(gameObject))
+        {
+            cachewpBoom.Add(gameObject, gameObject.GetComponent<Boomerang>());
+        }
+        return cachewpBoom[gameObject];
     }
 }

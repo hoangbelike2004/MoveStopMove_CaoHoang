@@ -16,6 +16,10 @@ public class DataManager : Singleton<DataManager>
         string Jsonstrwp = JsonUtility.ToJson(datawp);
         PlayerPrefs.SetString(Contains.DATA_WEAPON, Jsonstrwp);
     }
+    public void SaveDataBot(int value)
+    {
+        PlayerPrefs.SetInt(Contains.DATA_LEVELBOT , value);
+    }
     public void SaveDataPlayer(HatType hatTypePlayer, PantType pantTypePlayer, ShieldType shieldType, WeaponType weaponType, int score)
     {
         DataPlayer datapl = new DataPlayer(hatTypePlayer, pantTypePlayer, shieldType, weaponType, score);
@@ -36,19 +40,9 @@ public class DataManager : Singleton<DataManager>
             return null;
         }
     }
-    public DataSkin GetDataSkin()
+    public int GetDataBot(string a)
     {
-        string s = PlayerPrefs.GetString(Contains.DATA_SKIN);
-        DataSkin dtsk;
-        if (PlayerPrefs.HasKey(Contains.DATA_SKIN))
-        {
-            dtsk = JsonUtility.FromJson<DataSkin>(s);
-            return dtsk;
-        }
-        else
-        {
-            return null;
-        }
+        return PlayerPrefs.GetInt(a);
     }
     public void CheckData(string key)
     {
@@ -63,8 +57,9 @@ public class DataManager : Singleton<DataManager>
 }
 public class MyClass<T>
 {
-    public static T GetDataSkin(string key)
+    public static T GetDataKey(string key)
     {
+        
         string s = PlayerPrefs.GetString(key);
         T dtwp = default(T);
         if (PlayerPrefs.HasKey(key))

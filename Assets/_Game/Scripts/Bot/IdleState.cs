@@ -10,6 +10,7 @@ public class IdleState : IState
     {
         time = 0;
         timer = Random.Range(2, 4);
+        bot.ChangeAnim(Contains.IDLE);
     }
 
     public void OnExcute(Bot bot)

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2349852600512871024}
   - component: {fileID: -1407176929534754768}
   - component: {fileID: 4620174830633235515}
-  - component: {fileID: 3672372635331995745}
+  - component: {fileID: 3894478994582511194}
   m_Layer: 8
   m_Name: boomerang
   m_TagString: Weapon
@@ -134,7 +134,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3672372635331995745
+--- !u!114 &3894478994582511194
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2349852600515060912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cc8d5882580c9347baa016293bbbf97, type: 3}
+  m_Script: {fileID: 11500000, guid: a478c6d2808ce2540931829cc0c53987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   poolType: 3

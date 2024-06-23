@@ -19,16 +19,11 @@ public class Weapon : WeaponBase
     public override void OnInit()
     {
         base.OnInit();
-        Invoke(nameof(ActiveWeapon), timeDeactiveWeapon);
+        Invoke(nameof(OnDespawn), timeDeactiveWeapon);
     }
     public override void OnDespawn()
     {
         base.OnDespawn();
-    }
-
-    void ActiveWeapon()
-    {
-        OnDespawn();
     }
     public override void OnTriggerEnter(Collider other)
     {

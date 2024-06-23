@@ -616,6 +616,7 @@ GameObject:
   - component: {fileID: 2590018069043937125}
   - component: {fileID: 8871752119137951710}
   - component: {fileID: 1398987663416310017}
+  - component: {fileID: 348958784068506924}
   m_Layer: 0
   m_Name: Bot
   m_TagString: Bot
@@ -677,17 +678,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b9ab72c9480ff74fae7bb77878a3616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 4476655207268780157}
   speed: 2
   valueSize: 0
   valuesizetmp: 0
   rangeAttack: 5.3
-  score: 0
-  anim: {fileID: 4476655207268780157}
   planeLayer: 7
   layerWeapon: 8
   barrier: 9
-  hitcollider: []
-  listgameObjectHitcollider: []
   _weaponFaketf: {fileID: 6054360788613564532}
   _hairTf: {fileID: 6445490618499562244}
   _khientf: {fileID: 3253464194715307481}
@@ -703,7 +701,32 @@ MonoBehaviour:
   hatType: 0
   pantType: 0
   shieldType: 0
+  hatItem:
+    hatprefab: {fileID: 0}
+    hattype: 0
+    price: 0
+    iconhat: {fileID: 0}
+    typeState: 0
+  pantItem:
+    pantMaterial: {fileID: 0}
+    pantType: 0
+    price: 0
+    iconpant: {fileID: 0}
+    typeState: 0
+  shieldItem:
+    shieldprefab: {fileID: 0}
+    shieldtype: 0
+    price: 0
+    iconshield: {fileID: 0}
+    typeState: 0
+  suitdItem:
+    suitprefab: {fileID: 0}
+    suittype: 0
+    price: 0
+    iconsuit: {fileID: 0}
+    typeState: 0
   _text: {fileID: 6069445348900978678}
+  score: 0
   isAttack: 0
   isPlay: 0
   isSelect: 0
@@ -716,6 +739,8 @@ MonoBehaviour:
   hats: []
   shields: []
   suits: []
+  hitcollider: []
+  listgameObjectHitcollider: []
   _selectAttackOfPlayer: {fileID: 3376244262828710382}
   radius: 20
   _agent: {fileID: 1398987663416310017}
@@ -732,7 +757,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 100
   avoidancePriority: 50
-  m_AngularSpeed: 1000
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -741,6 +766,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &348958784068506924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8550591183835372848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411060de4483b5e4c9847cd3cbc18554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  needBoxIndicator: 1
+  needArrowIndicator: 1
+  needDistanceText: 1
+  indicator: {fileID: 0}
 --- !u!1 &8809089042164638322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1182,7 @@ PrefabInstance:
     - target: {fileID: -6057140222963153312, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: af2cf7787f062f4428a4e2c6abf049b2, type: 2}
+      objectReference: {fileID: 9100000, guid: e0c7e3dac0c729c4398877c8e9d93437, type: 2}
     - target: {fileID: -6008434836159022525, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_Layer
       value: 0

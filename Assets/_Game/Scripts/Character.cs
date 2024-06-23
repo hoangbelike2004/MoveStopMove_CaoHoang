@@ -202,12 +202,16 @@ public class Character : MonoBehaviour
         }
         else
         {
-            hats[0].gameObject.SetActive(true);
-            for (int i = hats.Count - 1; i > 0; i--)
+            if(hats.Count > 0)
             {
-                Destroy(hats[i].gameObject);
-                hats.RemoveAt(i);
+                hats[0].gameObject.SetActive(true);
+                for (int i = hats.Count - 1; i > 0; i--)
+                {
+                    Destroy(hats[i].gameObject);
+                    hats.RemoveAt(i);
+                }
             }
+           
         }
 
 
@@ -223,12 +227,16 @@ public class Character : MonoBehaviour
         }
         else
         {
-            shields[0].gameObject.SetActive(true);
-            for (int i = shields.Count - 1; i > 0; i--)
+            if(shields.Count > 0)
             {
-                Destroy(shields[i].gameObject);
-                shields.RemoveAt(i);
+                shields[0].gameObject.SetActive(true);
+                for (int i = shields.Count - 1; i > 0; i--)
+                {
+                    Destroy(shields[i].gameObject);
+                    shields.RemoveAt(i);
+                }
             }
+            
         }
         isShieldNull = _khientf.childCount != 0 ? true : false;
         isHatsNull = _hairTf.childCount != 0 ? true : false;
@@ -370,13 +378,23 @@ public class Character : MonoBehaviour
         
 
     }
-    public void DeActiveAttack()
+    public virtual void DeActiveAttack()
     {
         isAttack = false;
         time = 0;
     }
     public void InstanWeapon()
     {
+        if(weaponType == WeaponType.boomerang)
+        {
+            Boomerang boomerang = SimplePool.Spawn<Boomerang>((PoolType_One)weaponType, firePos.position, Quaternion.identity);
+            // Instantiate(weaponPrefab, firePos.position, firePos.rotation);
+            Boomerang newboomerang = Cache.GetWeaponBoomerangInCache(boomerang);
+            newboomerang.SetCharracterParent(this);
+            newboomerang.SetTarget(CurrentPos);
+            newboomerang.OnInit();
+            return;
+        }
         Weapon bullet = SimplePool.Spawn<Weapon>((PoolType_One)weaponType, firePos.position, Quaternion.identity);
            // Instantiate(weaponPrefab, firePos.position, firePos.rotation);
         Weapon newWeapon = Cache.GetWeaponInCache(bullet);
@@ -463,7 +481,7 @@ public class Character : MonoBehaviour
     public virtual void NotPlayGame()
     {
         isPlay = false;
-        Debug.Log(1);
+        
         CurrentPos = Vector3.zero;
 
     }

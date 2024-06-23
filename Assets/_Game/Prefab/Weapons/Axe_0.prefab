@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1c040a6e7d23e904b87e93fb9c66a037, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1c040a6e7d23e904b87e93fb9c66a037, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1c040a6e7d23e904b87e93fb9c66a037, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1c040a6e7d23e904b87e93fb9c66a037, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92,7 +92,7 @@ PrefabInstance:
       addedObject: {fileID: 8085033638890721801}
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 1c040a6e7d23e904b87e93fb9c66a037, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5340160750122910550}
+      addedObject: {fileID: -8304517048761932195}
   m_SourcePrefab: {fileID: 100100000, guid: 1c040a6e7d23e904b87e93fb9c66a037, type: 3}
 --- !u!1 &8543306016380501862 stripped
 GameObject:
@@ -112,9 +112,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolType: 2
-  speed: 0
+  speed: 10
   timeDeactiveWeapon: 0
-  rb: {fileID: 5340160750122910550}
+  rb: {fileID: -8304517048761932195}
   type: 2
 --- !u!65 &8085033638890721801
 BoxCollider:
@@ -137,7 +137,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.014497259, y: 0.024871463, z: 0.0025729507}
   m_Center: {x: -0.0017584036, y: -0.00032185623, z: 0}
---- !u!54 &5340160750122910550
+--- !u!54 &-8304517048761932195
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,7 +159,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

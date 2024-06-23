@@ -19,6 +19,7 @@ public class Contains : MonoBehaviour
     public const string DATA_PLAYER = "data_player";
     public const string DATA_SKIN = "data_SKIN";
     public const string DATA_WEAPON = "data_WEAPON";
+    public const string DATA_LEVELBOT = "data_levelBot";
 
     public const string nameAlive = "Alive: ";
 }

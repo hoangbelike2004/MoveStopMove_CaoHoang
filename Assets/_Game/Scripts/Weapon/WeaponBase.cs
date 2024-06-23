@@ -48,7 +48,7 @@ public class WeaponBase : GameUnit
     {
         direction = (target - TF.position).normalized;
     }
-    public void Move(Vector3 dir)
+    public virtual void Move(Vector3 dir)
     {
         direction.y = 0;
         TF.position += direction * speed * Time.deltaTime;

@@ -19,6 +19,17 @@ public class GameController : Singleton<GameController>
 
     private void Start()
     {
+        //if (PlayerPrefs.HasKey(Contains.DATA_SKIN))
+        //{
+        //    Debug.Log("Ton tai dataskin");
+        //    PlayerPrefs.DeleteKey(Contains.DATA_SKIN);
+
+        //}
+        //if (PlayerPrefs.HasKey(Contains.DATA_PLAYER))
+        //{
+        //    Debug.Log("Ton tai dataPlayer");
+        //    PlayerPrefs.DeleteKey(Contains.DATA_PLAYER);
+        //}
         Application.quitting += quit;
         isWin = true;
         isLose = true;

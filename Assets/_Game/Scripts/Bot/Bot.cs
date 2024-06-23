@@ -50,10 +50,10 @@ public class Bot : Character
     }
     public override void OnInit()
     {
+        _agent.enabled = true;
         testaction.Invoke();
         base.OnInit();
         _agent.speed = speed;
-        _agent.enabled = true;
         score = Random.Range(0, 5);
         CurrentPos = Vector3.zero;
         _text.text = score.ToString();
@@ -83,6 +83,7 @@ public class Bot : Character
     public override void Die()
     {
         base.Die();
+        _agent.enabled = false;
         valueBotAlive.Invoke();
     }
 

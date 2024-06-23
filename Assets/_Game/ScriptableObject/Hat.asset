@@ -22,12 +22,12 @@ MonoBehaviour:
     hattype: 1
     price: 100
     iconhat: {fileID: 21300000, guid: 7ecc7cd28cb66fb41ac2e56ca5e22d5c, type: 3}
-    typeState: 0
+    typeState: 2
   - hatprefab: {fileID: 8344359109943957246, guid: eb597a95a420afb409fb14a75a38dbf6, type: 3}
     hattype: 2
     price: 200
     iconhat: {fileID: 21300000, guid: a50fa6b5fea3d264cbec440c2da1dbf8, type: 3}
-    typeState: 0
+    typeState: 2
   - hatprefab: {fileID: 3336976624917959417, guid: c116977ac8e6e0e42889ebcfa705f87a, type: 3}
     hattype: 3
     price: 300
