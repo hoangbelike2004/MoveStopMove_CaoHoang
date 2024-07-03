@@ -8,11 +8,13 @@ public enum TypeState { notyetowned = 0, selected = 1, haveowned = 2}
 public class WeaponItem
 {
     public Weapon prefabWeapon;
+    public Boomerang prefabBoom;
     public WeaponType wpType;
     public int price;
     public Sprite iconWeapon;
     public GameObject weaponFake;
     public TypeState typeState;
+    public string name;
 }
 [Serializable]
 public class HatItem

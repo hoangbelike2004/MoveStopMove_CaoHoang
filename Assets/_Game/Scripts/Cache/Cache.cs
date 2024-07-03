@@ -20,10 +20,14 @@ public static class Cache
     }
     public static Character GetCharacterInCache(Character Cha)
     {
-        if (!cacheCharacter.ContainsKey(Cha))
+        if(cacheCharacter != null)
         {
-            cacheCharacter.Add(Cha, Cha.GetComponent<Character>());
+            if (!cacheCharacter.ContainsKey(Cha))
+            {
+                cacheCharacter.Add(Cha, Cha.GetComponent<Character>());
+            }
         }
+        
         return cacheCharacter[Cha];
     }
     public static Bot GetBotInCache(GameObject gameObject)

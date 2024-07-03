@@ -18,7 +18,10 @@ public class CanvasGameWin : UiCanvas
         homebtn.onClick.AddListener(ClickHomeBtn);
 
     }
-
+    public void UpdateScoreWhenWin(int a)
+    {
+        _score.text = a.ToString();
+    }
     void ClickHomeBtn()
     {
         AudioManager.Instance.PlaySound(AudioManager.Instance.acClick, 1);
@@ -29,5 +32,14 @@ public class CanvasGameWin : UiCanvas
         UiManager.Instance.OpenUI<CanvasGamePlay>();
         OpenPlayGameWhenWin.Invoke();
         
+    }
+    private void OnEnable()
+    {
+        GameController.UpdateScoreAndSetScoreWhenFinish += UpdateScoreWhenWin;
+    }
+
+    private void OnDisable()
+    {
+        GameController.UpdateScoreAndSetScoreWhenFinish -= UpdateScoreWhenWin;
     }
 }

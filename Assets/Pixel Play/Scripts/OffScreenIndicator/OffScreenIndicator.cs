@@ -58,13 +58,17 @@ public class OffScreenIndicator : MonoBehaviour
                 OffScreenIndicatorCore.GetArrowIndicatorPositionAndAngle(ref screenPosition, ref angle, screenCentre, screenBounds);
                 indicator = GetIndicator(ref target.indicator, IndicatorType.ARROW); // Gets the arrow indicator from the pool.
                 indicator.transform.rotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg); // Sets the rotation for the arrow indicator.
+                indicator.SetRotaTextValueBot(indicator.transform.rotation.z);
+                indicator.SetColorBackGround(target.TargetColor);
             }
             if(indicator)
             {
                 indicator.SetImageColor(target.TargetColor);// Sets the image color of the indicator.
+
                 indicator.SetDistanceText(distanceFromCamera); //Set the distance text for the indicator.
                 indicator.transform.position = screenPosition; //Sets the position of the indicator on the screen.
                 indicator.SetTextRotation(Quaternion.identity); // Sets the rotation of the distance text of the indicator.
+                
             }
         }
     }

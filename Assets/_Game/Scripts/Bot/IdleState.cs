@@ -11,6 +11,11 @@ public class IdleState : IState
         time = 0;
         timer = Random.Range(2, 4);
         bot.ChangeAnim(Contains.IDLE);
+        if(bot.GetCurrentPos() != Vector3.zero)
+        {
+            bot.ChangeState(new AttackState());
+        }
+
     }
 
     public void OnExcute(Bot bot)
@@ -20,7 +25,7 @@ public class IdleState : IState
         {
             bot.ChangeState(new PartrolState());
         }
-        if(bot.GetCurrentPos() != Vector3.zero)
+        else if(bot.GetCurrentPos() != Vector3.zero)
         {
             bot.ChangeState(new AttackState());
         }

@@ -7,11 +7,16 @@ using UnityEngine.Events;
 public class Bot : Character
 {
     [SerializeField] GameObject _selectAttackOfPlayer;
-    public float radius = 20;
     [SerializeField] NavMeshAgent _agent;
-    private IState currentState;
+    [SerializeField] Material[] materials;
+    [SerializeField] SkinnedMeshRenderer _renderer;
+    [SerializeField] Target _targetArrowIndication;
+
+    public float radius = 20;
     public static UnityAction testaction;
     public static UnityAction valueBotAlive;
+
+    private IState currentState;
     private void Update()
     {
 
@@ -32,6 +37,10 @@ public class Bot : Character
     {
         _agent.SetDestination(newPos);
     }
+    public void SetColorIndicator(Color c)
+    {
+        _targetArrowIndication.SetTagetColor(c);
+    }
     public void SetTarget()
     {
         _agent.ResetPath();
@@ -50,6 +59,8 @@ public class Bot : Character
     }
     public override void OnInit()
     {
+        int valuemt = Random.Range(0, materials.Length);
+        _renderer.material = materials[valuemt];
         _agent.enabled = true;
         testaction.Invoke();
         base.OnInit();
@@ -60,13 +71,19 @@ public class Bot : Character
         isSelectEnemy = false;
         int tmp = Random.Range(0,weaponData1.weapons.Count);
         ChangeWeapon((WeaponType)tmp);
-        ChangeState(new PartrolState());
+        ChangeState(new IdleState());
         int indexhat = Random.Range(0, hatData.hats.Count);
         ChangeHat((HatType)indexhat);
         int indexPant = Random.Range(0,pantData.pants.Count);
         ChangePant((PantType)indexPant);
     }
 
+    public override void ChangeAnim(string nameAnim)
+    {
+     
+            anim.SetTrigger(nameAnim);
+
+    }
     //public void DeActive
     public override void NotPlayGame()
     {
@@ -83,22 +100,14 @@ public class Bot : Character
     public override void Die()
     {
         base.Die();
+        _selectAttackOfPlayer.SetActive(false);
         _agent.enabled = false;
         valueBotAlive.Invoke();
+       
     }
 
     public void ChangeAnimBot()
-    {
-        Vector3 veloc = _agent.velocity;
-        bool isMoving = veloc.magnitude != 0;
-        if(isMoving)
-        {
-            ChangeAnim(Contains.RUN);
-        }else if (!isMoving&&!isAttack)
-        {
-            ChangeAnim(Contains.IDLE);
-        }
-        
+    {   
         if (!isAttack)
         {
             _weaponFaketf.gameObject.SetActive(true);
@@ -121,6 +130,10 @@ public class Bot : Character
     public Vector3 GetCurrentPos()
     {
         return CurrentPos;
+    }
+    public void SetCurrentPos()
+    {
+        CurrentPos = Vector3.zero;
     }
     protected override void CheckSight()
     {

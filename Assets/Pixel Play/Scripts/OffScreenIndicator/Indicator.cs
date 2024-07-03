@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -7,9 +8,11 @@ using UnityEngine.UI;
 public class Indicator : MonoBehaviour
 {
     [SerializeField] private IndicatorType indicatorType;
+    [SerializeField] TextMeshProUGUI _textArrowIndicaltior;
+    [SerializeField] Image _backGround;
     private Image indicatorImage;
     private Text distanceText;
-
+    
     /// <summary>
     /// Gets if the game object is active in hierarchy.
     /// </summary>
@@ -31,6 +34,22 @@ public class Indicator : MonoBehaviour
             return indicatorType;
         }
     }
+    public void SetValueBot(string txt)
+    {
+        _textArrowIndicaltior.text = txt;
+    }
+    public void SetRotaTextValueBot(float valueRota)
+    {
+        if (valueRota <= 90 && valueRota >= -90)
+        {
+            _textArrowIndicaltior.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            _textArrowIndicaltior.transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+    }
+    
 
     void Awake()
     {
@@ -45,6 +64,10 @@ public class Indicator : MonoBehaviour
     public void SetImageColor(Color color)
     {
         indicatorImage.color = color;
+    }
+    public void SetColorBackGround(Color c)
+    {
+        _backGround.color = c;
     }
 
     /// <summary>
@@ -63,7 +86,9 @@ public class Indicator : MonoBehaviour
     public void SetTextRotation(Quaternion rotation)
     {
         distanceText.rectTransform.rotation = rotation;
+        
     }
+    
 
     /// <summary>
     /// Sets the indicator as active or inactive.

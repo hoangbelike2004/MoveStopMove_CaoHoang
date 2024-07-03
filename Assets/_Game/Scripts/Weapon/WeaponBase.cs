@@ -14,13 +14,13 @@ public class WeaponBase : GameUnit
     private Vector3 direction;
     protected Vector3 sizeinitial;
 
-    private void Start()
+    protected void Start()
     {
         transform.Rotate(-90, 0, 0);
         OnInit();
     }
 
-    private void Update()
+    protected void Update()
     {
         if (gameObject.activeSelf)
         {
@@ -30,9 +30,9 @@ public class WeaponBase : GameUnit
 
     public virtual void OnInit()
     {
-        Character newCharacter = Cache.GetCharacterInCache(characterParent);
-        float valuesize = newCharacter.GetValueSize() * transform.localScale.x; //tang size cua vu khi
-        timeDeactiveWeapon = newCharacter.GetRangeAttack() / speed;//thay doi time khi quang duong thay doi
+        //Character newCharacter = Cache.GetCharacterInCache(characterParent);
+        float valuesize = characterParent.GetValueSize() * transform.localScale.x; //tang size cua vu khi
+        timeDeactiveWeapon = characterParent.GetRangeAttack() / speed;//thay doi time khi quang duong thay doi
         transform.localScale = new Vector3(transform.localScale.x + valuesize, transform.localScale.y + valuesize, transform.localScale.z + valuesize);
         transform.Rotate(-90, 0, 0);
     }
@@ -63,11 +63,11 @@ public class WeaponBase : GameUnit
         if (other.GetComponent<Character>() != characterParent && other.GetComponent<Character>() != null)
         {
             target = Cache.GetCharacteOfColliderInCache(other);
-            current = Cache.GetCharacterInCache(characterParent);
+            //current = Cache.GetCharacterInCache(characterParent);
             OnDespawn();
             target.Die();
             // ActionAddScore?.Invoke(current,target);
-            current.AddScore();
+            characterParent.AddScore();
         }
     }
 }

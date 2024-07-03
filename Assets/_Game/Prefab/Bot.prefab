@@ -679,8 +679,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 4476655207268780157}
-  speed: 2
+  speed: 7
   valueSize: 0
+  valueSizeStart: 0
   valuesizetmp: 0
   rangeAttack: 5.3
   planeLayer: 7
@@ -691,6 +692,7 @@ MonoBehaviour:
   _khientf: {fileID: 3253464194715307481}
   _pants: {fileID: 7887784881078738324}
   weaponPrefab: {fileID: 8408329255615775647, guid: 00bf39e0f1cc50746922ca68c643351d, type: 3}
+  BoomerangPrefab: {fileID: 0}
   firePos: {fileID: 5093197343383865573}
   capsuleCollider: {fileID: 2590018069043937125}
   weaponData1: {fileID: 11400000, guid: 10ef2edbbbf6e754fb546296d7756a5e, type: 2}
@@ -742,8 +744,16 @@ MonoBehaviour:
   hitcollider: []
   listgameObjectHitcollider: []
   _selectAttackOfPlayer: {fileID: 3376244262828710382}
-  radius: 20
   _agent: {fileID: 1398987663416310017}
+  materials:
+  - {fileID: 2100000, guid: 4831be76d330dc94b92a56950bdd7cc4, type: 2}
+  - {fileID: 2100000, guid: f4bd68d18925da04fb53dc25a5ced904, type: 2}
+  - {fileID: 2100000, guid: 2e0eee029b8844e4fba1f1833bcba1e3, type: 2}
+  - {fileID: 2100000, guid: 3e979e28992fd91449d6187ff1bcdbb0, type: 2}
+  - {fileID: 2100000, guid: eeb0bd06d85b416468efc5bcd6cdc4ac, type: 2}
+  _renderer: {fileID: 1339283231004137719}
+  _targetArrowIndication: {fileID: 348958784068506924}
+  radius: 20
 --- !u!195 &1398987663416310017
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1980,6 +1990,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5789835517505343968}
   m_SourcePrefab: {fileID: 100100000, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
+--- !u!137 &1339283231004137719 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8699012472884554006, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
+  m_PrefabInstance: {fileID: 1572021520633794077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1416427784441990074 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8757011230347164249, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}

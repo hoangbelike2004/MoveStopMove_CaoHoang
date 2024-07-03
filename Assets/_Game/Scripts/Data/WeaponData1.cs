@@ -21,6 +21,10 @@ public class WeaponData1 : ScriptableObject
     {
         return weapons[(int)type].prefabWeapon;
     }
+    public Boomerang GetBoomerang(WeaponType type)
+    {
+        return weapons[(int)WeaponType.boomerang].prefabBoom;
+    }
     public GameObject GetWeaponGOB(WeaponType type)
     {
         return weapons[(int)type].weaponFake;
@@ -38,5 +42,6 @@ public class WeaponData1 : ScriptableObject
     {
         return weapons[((int)type)].price;
     }
+    
 
 }

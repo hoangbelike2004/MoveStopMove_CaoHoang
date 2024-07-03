@@ -7,6 +7,7 @@ public class UiManager : Singleton<UiManager>
     Dictionary<System.Type,UiCanvas> canvasActives = new Dictionary<System.Type,UiCanvas>();//dung de luu uicanvas
     Dictionary<System.Type,UiCanvas> canvasPrefabs = new Dictionary<System.Type,UiCanvas>();//noi chua prefab
     [SerializeField] Transform parent;
+    [SerializeField] CanvasGroup canvasGroupIndicator;
     private void Awake()
     {
         //Load UI tu resource
@@ -93,6 +94,18 @@ public class UiManager : Singleton<UiManager>
             {
                 canvas.Value.Close(0);
             }
+        }
+    }
+
+    public void SetAlphaIndicator(bool isPlay)
+    {
+        if (isPlay)
+        {
+            canvasGroupIndicator.alpha = 1;
+        }
+        else
+        {
+            canvasGroupIndicator.alpha = 0;
         }
     }
 }

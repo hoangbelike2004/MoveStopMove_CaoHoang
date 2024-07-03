@@ -5,23 +5,24 @@ using UnityEngine;
 public class PartrolState : IState
 {
     Vector3 next_pos;
-    float time, timer;
+    int  numberoftimesmoved,numberofmoves;
     public void OnEnter(Bot bot)
     {
         bot.ChangeAnim(Contains.RUN);
         next_pos = bot.transform.position;
-        time = 0;
-        timer = Random.Range(3, 5);
+        
+        numberoftimesmoved = 0;
+        numberofmoves = Random.Range(1, 2);
     }
 
     public void OnExcute(Bot bot)
     {
-        
-        time += Time.deltaTime;
-        if(time <= timer)
+        bot.SetCurrentPos();
+        if (numberoftimesmoved <= numberofmoves)
         {
             if (Vector3.Distance(next_pos, bot.transform.position) < .5f)
             {
+                numberoftimesmoved++;
                 next_pos = RandomTarget.Instance.R_point_Get(bot.transform.position, bot.radius);
                 bot.Move(next_pos);
 
@@ -31,15 +32,6 @@ public class PartrolState : IState
         {
             bot.SetTarget();
             bot.ChangeState(new IdleState());
-
-   
-        }
-
-        if(bot.GetCurrentPos() != Vector3.zero)
-        {
-            bot.SetTarget();
-            bot.isAttack = true;
-            bot.ChangeState(new AttackState());
         }
     }
 

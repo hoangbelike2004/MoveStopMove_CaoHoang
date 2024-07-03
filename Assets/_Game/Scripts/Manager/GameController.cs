@@ -10,8 +10,10 @@ public class GameController : Singleton<GameController>
 
     public static UnityAction<int> updateTextScoreAction;
     public static UnityAction ReLoadHome;
+    public static UnityAction CallTimeUIWhenLose;
     public static UnityAction OnInitAllAction;
     public static UnityAction QuitGameEvent;
+    public static UnityAction<int> UpdateScoreAndSetScoreWhenFinish;
     public int score;
     [SerializeField] Player Player;
     [SerializeField] private float timeActiveLoseUI;
@@ -19,17 +21,6 @@ public class GameController : Singleton<GameController>
 
     private void Start()
     {
-        //if (PlayerPrefs.HasKey(Contains.DATA_SKIN))
-        //{
-        //    Debug.Log("Ton tai dataskin");
-        //    PlayerPrefs.DeleteKey(Contains.DATA_SKIN);
-
-        //}
-        //if (PlayerPrefs.HasKey(Contains.DATA_PLAYER))
-        //{
-        //    Debug.Log("Ton tai dataPlayer");
-        //    PlayerPrefs.DeleteKey(Contains.DATA_PLAYER);
-        //}
         Application.quitting += quit;
         isWin = true;
         isLose = true;
@@ -45,6 +36,11 @@ public class GameController : Singleton<GameController>
     public int GetScore()
     {
         return score;
+    }
+    public int Scoreearned()
+    {
+        score += Player.GetScore();// update diem khi xong tran
+        return Player.GetScore();//tra ve so diem kiem duoc
     }
 
     public void SetScore(int price)
@@ -70,6 +66,14 @@ public class GameController : Singleton<GameController>
         OnInitAllAction.Invoke();
         
     }
+    public void RevivalPlayer()
+    {
+        isWin = true;
+        isLose = true;
+
+        Player.transform.gameObject.SetActive(true);
+
+    }
 
     public void UpdateScore()
     {
@@ -83,12 +87,17 @@ public class GameController : Singleton<GameController>
         {
             isWin = false;
             Invoke(nameof(ActiveUILose), timeActiveLoseUI);
+            
         }
         
     }
     void ActiveUILose()
     {
+        Scoreearned();
         UiManager.Instance.OpenUI<CanvasGameLose>();
+        CallTimeUIWhenLose.Invoke();
+        int a = Scoreearned();
+        UpdateScoreAndSetScoreWhenFinish.Invoke(a);
     }
     void ActiveUIWin()
     {

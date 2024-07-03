@@ -12,7 +12,9 @@ class ArrowObjectPool : MonoBehaviour
     [Tooltip("Should the pooled amount increase.")]
     public bool willGrow = true;
 
+
     List<Indicator> pooledObjects;
+    public Color[] colors;
 
     void Awake()
     {
@@ -26,10 +28,15 @@ class ArrowObjectPool : MonoBehaviour
         for (int i = 0; i < pooledAmount; i++)
         {
             Indicator arrow = Instantiate(pooledObject);
+            arrow.SetValueBot((i + 1).ToString());
             arrow.transform.SetParent(transform, false);
             arrow.Activate(false);
             pooledObjects.Add(arrow);
         }
+    }
+    public Color[] GetColorIndicator()
+    {
+        return colors;
     }
 
     /// <summary>

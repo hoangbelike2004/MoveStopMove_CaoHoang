@@ -8,38 +8,25 @@ public class AttackState : IState
     public void OnEnter(Bot bot)
     {
         time = 0;
-        timer = Random.Range(1, 4);// TODO: tính xem bao lâu thì tấn công
+        timer = Random.Range(1, 3);// TODO: tính xem bao lâu thì tấn công
+        Quaternion targetRotation = Quaternion.LookRotation(bot.GetCurrentPos() - bot.transform.position);
+        targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);//cho xoay moi truc y ve phia enemy
+                                                                              // Xoay player về phía quái
+        bot.transform.rotation = targetRotation;
+        bot.Attack();
+
 
     }
 
     public void OnExcute(Bot bot)
     {
         time += Time.deltaTime;
-        if (bot.isAttack)
+        bot.SetCurrentPos();
+        if (!bot.isAttack && time >= timer)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(bot.GetCurrentPos() - bot.transform.position);
-            targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);//cho xoay moi truc y ve phia enemy
-                                                                                  // Xoay player về phía quái
-            bot.transform.rotation = targetRotation;
-            bot.Attack();
+            bot.ChangeState(new PartrolState());
         }
-        if (!bot.isAttack)
-        {
-            if (time >= timer)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(bot.GetCurrentPos() - bot.transform.position);
-                targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);//cho xoay moi truc y ve phia enemy
-                                                                                      // Xoay player về phía quái
-                bot.transform.rotation = targetRotation;
-                bot.Attack();
-                //time = 0;
-            }
-            if (bot.GetCurrentPos() == Vector3.zero)
-            {
-               
-                bot.ChangeState(new PartrolState());
-            }
-        }
+
     }
         
 

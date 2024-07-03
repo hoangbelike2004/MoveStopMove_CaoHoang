@@ -55,6 +55,7 @@ public class CanvasBuyWeapon : UiCanvas
         }
         weaponitem = weaponData.weapons[weaponNR];
         _IconWeapon.sprite = weaponitem.iconWeapon;
+        _textnameWeapon.text = weaponitem.name;
         CheckBuySkin(weaponitem.typeState);
         SetPriceForWeapon(weaponitem.price);
     }
@@ -67,6 +68,7 @@ public class CanvasBuyWeapon : UiCanvas
         }
         weaponitem = weaponData.weapons[weaponNR];
         _IconWeapon.sprite = weaponitem.iconWeapon;
+        _textnameWeapon.text = weaponitem.name;
         CheckBuySkin(weaponitem.typeState);
         SetPriceForWeapon(weaponitem.price);
     }
@@ -127,7 +129,11 @@ public class CanvasBuyWeapon : UiCanvas
     }
     void CheckBuySkinKhiOpenChangSkin()
     {
+        weaponNR = 0;
         weaponitem = weaponData.weapons[weaponNR];
+        _IconWeapon.sprite = weaponitem.iconWeapon;
+        _textnameWeapon.text = weaponitem.name;
+        SetPriceForWeapon(weaponitem.price);
         CheckBuySkin(weaponitem.typeState);
     }
     void ReadJustDataWeapon(WeaponItem item)
@@ -139,6 +145,15 @@ public class CanvasBuyWeapon : UiCanvas
                 it.typeState = TypeState.haveowned;
             }
         }
+    }
+    void OpenShopWeapon()
+    {
+        weaponNR = 0;
+        weaponitem = weaponData.weapons[weaponNR];
+        _IconWeapon.sprite = weaponitem.iconWeapon;
+        _textnameWeapon.text = weaponitem.name;
+        CheckBuySkin(weaponitem.typeState);
+        SetPriceForWeapon(weaponitem.price);
     }
 
     private void OnEnable()

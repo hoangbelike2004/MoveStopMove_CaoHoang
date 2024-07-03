@@ -10,13 +10,14 @@ using UnityEngine.UIElements;
 public class Character : MonoBehaviour
 {
     
-    [SerializeField] private Animator anim;
-    [SerializeField] protected float speed, valueSize, valuesizetmp, rangeAttack = 7f;
+    [SerializeField] protected Animator anim;
+    [SerializeField] protected float speed, valueSize,valueSizeStart, valuesizetmp, rangeAttack = 7f;
     [SerializeField] protected int planeLayer,layerWeapon, barrier;
     [SerializeField] protected Transform _weaponFaketf,_hairTf,_khientf;
     [SerializeField] SkinnedMeshRenderer _pants;
 
     [SerializeField] protected Weapon weaponPrefab;
+    [SerializeField] protected Boomerang BoomerangPrefab;
     [SerializeField] protected Transform firePos;
     [SerializeField] protected CapsuleCollider capsuleCollider;
 
@@ -58,6 +59,7 @@ public class Character : MonoBehaviour
 
     protected virtual void Start()
     {
+        valueSizeStart = valueSize;
         OnInit();
         CheckScoreForUpSize(score);
     }
@@ -67,10 +69,10 @@ public class Character : MonoBehaviour
     //}
     public virtual void OnInit()
     {
+        UiManager.Instance.SetAlphaIndicator(isPlay);
         isDie = false;
         transform.localScale = Vector3.one;
        savepantMaterial = _pants.material;
-        speed = 10f;
         valueSize = 0.1f;
         time = 0;
         isAttack = false;
@@ -96,14 +98,22 @@ public class Character : MonoBehaviour
 
     protected virtual void ChangeWeapon(WeaponType newwp)
     {
-       
-        weaponPrefab = weaponData1.GetWeapon(newwp);
-        weaponType = newwp;
-        GameObject _weaponFake = weaponData1.GetWeaponGOB(newwp);
-        Destroy(_weaponFaketf.GetChild(0).gameObject);
-        Instantiate(_weaponFake, _weaponFaketf);
+       if(newwp != WeaponType.boomerang)
+        {
+            weaponPrefab = weaponData1.GetWeapon(newwp);
+            weaponType = newwp;
+            GameObject _weaponFake = weaponData1.GetWeaponGOB(newwp);
+            Destroy(_weaponFaketf.GetChild(0).gameObject);
+            Instantiate(_weaponFake, _weaponFaketf);
+            return;
+        }
 
-        //_weaponFake.GetComponent<Weapon>().enabled = false;
+        BoomerangPrefab = weaponData1.GetBoomerang(newwp);
+        weaponType = newwp;
+        GameObject _weaponFake1 = weaponData1.GetWeaponGOB(newwp);
+        Destroy(_weaponFaketf.GetChild(0).gameObject);
+        Instantiate(_weaponFake1, _weaponFaketf);
+
     }
 
     protected virtual void ChangeHat(HatType newType)
@@ -380,6 +390,7 @@ public class Character : MonoBehaviour
     }
     public virtual void DeActiveAttack()
     {
+       
         isAttack = false;
         time = 0;
     }
@@ -388,11 +399,12 @@ public class Character : MonoBehaviour
         if(weaponType == WeaponType.boomerang)
         {
             Boomerang boomerang = SimplePool.Spawn<Boomerang>((PoolType_One)weaponType, firePos.position, Quaternion.identity);
-            // Instantiate(weaponPrefab, firePos.position, firePos.rotation);
+            
             Boomerang newboomerang = Cache.GetWeaponBoomerangInCache(boomerang);
             newboomerang.SetCharracterParent(this);
             newboomerang.SetTarget(CurrentPos);
-            newboomerang.OnInit();
+            boomerang.OnInit();
+
             return;
         }
         Weapon bullet = SimplePool.Spawn<Weapon>((PoolType_One)weaponType, firePos.position, Quaternion.identity);
@@ -437,7 +449,7 @@ public class Character : MonoBehaviour
     {
         
         hitcollider = Physics.OverlapSphere(transform.position, rangeAttack);
-        int value = 0;
+        int value = 0,tmp = 0;
 
         Array.Sort(hitcollider, Compare);
         if(hitcollider.Length != 0)
@@ -447,14 +459,16 @@ public class Character : MonoBehaviour
                 if (hitcollider[i].gameObject.layer != planeLayer&& hitcollider[i].gameObject.layer != barrier
                     && hitcollider[i].gameObject != this.gameObject && hitcollider[i].gameObject.layer != layerWeapon)
                 {
-                    Character newChar = Cache.GetCharacteOfColliderInCache(hitcollider[i]);
-                    CurrentPos = newChar.transform.position;
+                    //Character newChar = Cache.GetCharacteOfColliderInCache(hitcollider[i]);
+                    CurrentPos = hitcollider[i].transform.position;
                     value = i;
                     break;
                 }
             }
+
             if(value != 0 && gameObject.tag != "Bot")//dung de bat target cua bot
             {
+                
                 if (hitcollider.Contains(hitcollider[value]))//khi van ton tai collider cua bot tong array
                 {
                     hitcollider[value].GetComponent<Bot>().IsSelect(true);
@@ -465,7 +479,16 @@ public class Character : MonoBehaviour
                     hitcollider[value].GetComponent<Bot>().IsSelect(false);
                     CurrentPos = Vector3.zero;
                 }
-                
+                for (int j = hitcollider.Length - 1; j > value; j--)
+                {
+                    if (hitcollider[j].gameObject.CompareTag("Bot"))
+                    {
+                        hitcollider[j].GetComponent<Bot>().IsSelect(false);
+                        Debug.Log(j);
+                    }
+
+                }
+
             }
             
         }
@@ -476,13 +499,16 @@ public class Character : MonoBehaviour
         
         isPlay = true;
         isDie = false;
-        
+        UiManager.Instance.SetAlphaIndicator(isPlay);
+
     }
     public virtual void NotPlayGame()
     {
+        valuesizetmp = valueSize;
         isPlay = false;
         
         CurrentPos = Vector3.zero;
+        UiManager.Instance.SetAlphaIndicator(isPlay);
 
     }
     protected virtual void OnEnable()

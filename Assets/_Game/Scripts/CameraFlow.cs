@@ -6,14 +6,18 @@ using UnityEngine;
 public class CameraFlow : MonoBehaviour
 {
     [SerializeField] private Transform _playerTf;
+    [SerializeField] private Transform _PlayerHeadtf;
     [SerializeField] private Camera _camera;
     [SerializeField] private float timeStartFlo = 40f,timerotationFlow = 15f;
     Vector3 tfstart;
     Quaternion rotationStart;
     bool _isPlaying = false,_isChangeSkin;
     float valuesize;
+    RaycastHit hit;
+    GameObject objtmp;
     IEnumerator Start()
     {
+         objtmp = new GameObject();
         rotationStart = transform.rotation;
         tfstart = transform.position;
         OnInit();
@@ -37,6 +41,7 @@ public class CameraFlow : MonoBehaviour
                 StartCoroutine(FlowPlayer());
 
             }
+            SetTranparentViewToPlayer();
             
             yield return null;
         }
@@ -86,6 +91,29 @@ public class CameraFlow : MonoBehaviour
     {
         _isChangeSkin = false;
     }
+    void SetTranparentViewToPlayer()
+    {
+        if(Physics.Linecast(transform.position, _PlayerHeadtf.position,out hit))
+        {
+            
+            if (hit.collider.CompareTag("Wall"))
+            {
+                hit.collider.GetComponent<Wall>().ChangeObjectColor(0.4f);
+                objtmp = hit.collider.gameObject;
+            }
+            else
+            {
+                if(objtmp.GetComponent<Wall>() != null)
+                {
+                    objtmp.GetComponent<Wall>().ChangeObjectColor(1f);
+                }
+                
+
+            }
+        }
+    }
+
+    
     private void OnEnable()
     {
         CanvasGamePlay.actionPlayGame += RunWhenClickPlay;
@@ -102,4 +130,6 @@ public class CameraFlow : MonoBehaviour
 
         GameController.ReLoadHome -= OnInit;
     }
+
+   
 }

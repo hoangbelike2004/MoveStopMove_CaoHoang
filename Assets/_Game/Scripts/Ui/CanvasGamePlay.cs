@@ -44,6 +44,7 @@ public class CanvasGamePlay : UiCanvas
         anim.SetTrigger(Contains.CLOSE_GAME_PLAY);
         UiManager.Instance.CloseUI<CanvasGamePlay>(.3f);
         UiManager.Instance.OpenUI<CanvasMatch>();
+        GameController.Instance.UpdateScore();
         actionPlayGame?.Invoke();
     }
     

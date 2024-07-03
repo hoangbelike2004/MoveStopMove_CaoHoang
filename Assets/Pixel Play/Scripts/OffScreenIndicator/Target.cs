@@ -35,6 +35,10 @@ public class Target : MonoBehaviour
             return targetColor;
         }
     }
+    public void SetTagetColor(Color color)
+    {
+        targetColor = color;
+    }
 
     /// <summary>
     /// Gets if box indicator is required for the target.
